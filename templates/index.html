@@ -1,0 +1,423 @@
+<!doctype html>
+<html lang="tr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Hüner AI | Tıbbi Rapor Değerlendirme</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/static/styles.css" />
+  </head>
+  <body>
+    <div class="content" id="layout">
+      <aside class="sidebar" id="sidebar">
+        <div class="sidebar-inner">
+          <button class="new-chat" id="toggleMenu">☰ Menü</button>
+          <div id="menuSections">
+            <div class="menu-section">
+              <h4 data-target="sec-report">Rapor Bilgileri</h4>
+              <div class="menu-items" id="sec-report"></div>
+            </div>
+            <div class="menu-section">
+              <h4 data-target="sec-patient">Hasta</h4>
+              <div class="menu-items" id="sec-patient"></div>
+            </div>
+            <div class="menu-section">
+              <h4 data-target="sec-doctors">Doktorlar</h4>
+              <div class="menu-items" id="sec-doctors"></div>
+            </div>
+            <div class="menu-section">
+              <h4 data-target="sec-dx">Tanılar</h4>
+              <div class="menu-items" id="sec-dx"></div>
+            </div>
+            <div class="menu-section">
+              <h4 data-target="sec-meds">İlaçlar</h4>
+              <div class="menu-items" id="sec-meds"></div>
+            </div>
+            <div class="menu-section">
+              <h4 data-target="sec-add">İlave Değerler</h4>
+              <div class="menu-items" id="sec-add"></div>
+            </div>
+          </div>
+        </div>
+      </aside>
+      <main class="chat" style="max-width: 1100px;">
+      <div class="layout-two-cols">
+        <div class="col">
+          <div class="message scroll-panel">
+          <div class="bubble" style="width:100%;">
+            <form id="reportForm" action="/evaluate/" method="post" onsubmit="return false;">
+              <textarea id="reportInput" name="report_text" placeholder="Rapor/Reçete metnini buraya yapıştırın" rows="18" aria-label="Rapor metni" style="width:100%;"></textarea>
+              <div style="display:flex; gap:8px; align-items:center; margin-top:8px;">
+                <button class="pill-btn" id="submitBtn" type="submit">Gönder</button>
+                <span id="loading" class="muted" style="display:none; color: var(--muted);">Değerlendiriliyor...</span>
+              </div>
+            </form>
+          </div>
+          </div>
+          <div id="resultBlock" class="message scroll-panel" style="display:none;">
+          <div class="bubble" style="width:100%;">
+            <h3 style="margin:0 0 10px 0;">Yapılandırılmış Rapor</h3>
+            <details class="accordion" open>
+              <summary><span class="chev">▶</span> Rapor Bilgileri</summary>
+              <div class="accordion-body">
+                <div id="acc-report" class="kv"></div>
+              </div>
+            </details>
+            <details class="accordion">
+              <summary><span class="chev">▶</span> Hasta</summary>
+              <div class="accordion-body">
+                <div id="acc-patient" class="kv"></div>
+              </div>
+            </details>
+            <details class="accordion">
+              <summary><span class="chev">▶</span> Doktorlar</summary>
+              <div class="accordion-body">
+                <div id="acc-doctors"></div>
+              </div>
+            </details>
+            <details class="accordion">
+              <summary><span class="chev">▶</span> Tanılar</summary>
+              <div class="accordion-body">
+                <div id="acc-dx"></div>
+              </div>
+            </details>
+            <details class="accordion">
+              <summary><span class="chev">▶</span> İlaçlar</summary>
+              <div class="accordion-body">
+                <div id="acc-meds"></div>
+              </div>
+            </details>
+            <details class="accordion">
+              <summary><span class="chev">▶</span> İlave Değerler</summary>
+              <div class="accordion-body">
+                <div id="acc-add" class="kv"></div>
+              </div>
+            </details>
+          </div>
+          </div>
+        </div>
+        <div class="col">
+          <div id="answerBlock" class="message scroll-panel" style="display:none;">
+            <div class="bubble answer" style="width:100%;">
+              <h3 style="margin:0 0 8px 0;">Değerlendirme Sonucu</h3>
+              <div id="evaluationText" style="white-space:pre-wrap;"></div>
+              <hr style="border-color: var(--border); margin:12px 0;" />
+              <div id="feedbackUI">
+                <p style="margin:0 0 6px 0; color: var(--muted);">Bu yanıt doğru mu?</p>
+                <div style="display:flex; gap:8px; margin-bottom:8px;">
+                  <button class="pill-btn" id="fbCorrect">Evet, doğru</button>
+                  <button class="pill-btn" id="fbIncorrect">Hayır, yanlış</button>
+                </div>
+                <div class="modal-backdrop" id="fbModal">
+                  <div class="modal">
+                    <header>Yanıt neden yanlış?</header>
+                    <div>
+                      <div class="chips" id="fbChips"></div>
+                      <textarea id="fbComment" rows="4" placeholder="Kısa açıklama (isteğe bağlı)" style="width:100%; margin-top:10px;"></textarea>
+                    </div>
+                    <footer>
+                      <button class="pill-btn" id="fbCancel">Vazgeç</button>
+                      <button class="pill-btn" id="fbSubmit">Gönder</button>
+                    </footer>
+                  </div>
+                </div>
+                <span id="fbStatus" class="muted" style="display:none; color: var(--muted);"></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+        <div id="resultBlock" class="message" style="display:none;">
+          <div class="bubble" style="width:100%;">
+            <h3 style="margin:0 0 10px 0;">Yapılandırılmış Rapor</h3>
+            <details class="accordion" open>
+              <summary>Rapor Bilgileri</summary>
+              <div class="accordion-body">
+                <div id="acc-report" class="kv"></div>
+              </div>
+            </details>
+            <details class="accordion">
+              <summary>Hasta</summary>
+              <div class="accordion-body">
+                <div id="acc-patient" class="kv"></div>
+              </div>
+            </details>
+            <details class="accordion">
+              <summary>Doktorlar</summary>
+              <div class="accordion-body">
+                <div id="acc-doctors"></div>
+              </div>
+            </details>
+            <details class="accordion">
+              <summary>Tanılar</summary>
+              <div class="accordion-body">
+                <div id="acc-dx"></div>
+              </div>
+            </details>
+            <details class="accordion">
+              <summary>İlaçlar</summary>
+              <div class="accordion-body">
+                <div id="acc-meds"></div>
+              </div>
+            </details>
+            <details class="accordion">
+              <summary>İlave Değerler</summary>
+              <div class="accordion-body">
+                <div id="acc-add" class="kv"></div>
+              </div>
+            </details>
+          </div>
+        </div>
+
+        <div id="answerBlock" class="message" style="display:none;">
+          <div class="bubble answer" style="width:100%;">
+            <h3 style="margin:0 0 8px 0;">Değerlendirme Sonucu</h3>
+            <div id="evaluationText" style="white-space:pre-wrap;"></div>
+            <hr style="border-color: var(--border); margin:12px 0;" />
+            <div id="feedbackUI">
+              <p style="margin:0 0 6px 0; color: var(--muted);">Bu yanıt doğru mu?</p>
+              <div style="display:flex; gap:8px; margin-bottom:8px;">
+                <button class="pill-btn" id="fbCorrect">Evet, doğru</button>
+                <button class="pill-btn" id="fbIncorrect">Hayır, yanlış</button>
+              </div>
+              <div class="modal-backdrop" id="fbModal">
+                <div class="modal">
+                  <header>Yanıt neden yanlış?</header>
+                  <div>
+                    <div class="chips" id="fbChips"></div>
+                    <textarea id="fbComment" rows="4" placeholder="Kısa açıklama (isteğe bağlı)" style="width:100%; margin-top:10px;"></textarea>
+            </div>
+                  <footer>
+                    <button class="pill-btn" id="fbCancel">Vazgeç</button>
+                    <button class="pill-btn" id="fbSubmit">Gönder</button>
+                  </footer>
+                </div>
+              </div>
+              <span id="fbStatus" class="muted" style="display:none; color: var(--muted);"></span>
+              </div>
+            </div>
+          </div>
+        </div>
+        </main>
+      </div>
+
+      <footer class="composer">
+        <p class="disclaimer">Asistan hata yapabilir. Önemli bilgileri lütfen kontrol edin.</p>
+      </footer>
+
+  <script>
+      const form = document.getElementById('reportForm');
+      const input = document.getElementById('reportInput');
+      const btn = document.getElementById('submitBtn');
+      const loading = document.getElementById('loading');
+      const resultBlock = document.getElementById('resultBlock');
+      const accReport = document.getElementById('acc-report');
+      const accPatient = document.getElementById('acc-patient');
+      const accDoctors = document.getElementById('acc-doctors');
+      const accDx = document.getElementById('acc-dx');
+      const accMeds = document.getElementById('acc-meds');
+      const accAdd = document.getElementById('acc-add');
+      const answerBlock = document.getElementById('answerBlock');
+      const evaluationText = document.getElementById('evaluationText');
+      const fbCorrect = document.getElementById('fbCorrect');
+      const fbIncorrect = document.getElementById('fbIncorrect');
+      const fbModal = document.getElementById('fbModal');
+      const fbChips = document.getElementById('fbChips');
+      const fbComment = document.getElementById('fbComment');
+      const fbStatus = document.getElementById('fbStatus');
+      const layout = document.getElementById('layout');
+      const toggleMenuBtn = document.getElementById('toggleMenu');
+      const sectionHeads = document.querySelectorAll('.menu-section h4');
+      const secReport = document.getElementById('sec-report');
+      const secPatient = document.getElementById('sec-patient');
+      const secDoctors = document.getElementById('sec-doctors');
+      const secDx = document.getElementById('sec-dx');
+      const secMeds = document.getElementById('sec-meds');
+      const secAdd = document.getElementById('sec-add');
+
+      toggleMenuBtn.addEventListener('click', () => {
+        layout.classList.toggle('sidebar-visible');
+      });
+      sectionHeads.forEach(h => h.addEventListener('click', () => {
+        const t = document.getElementById(h.dataset.target);
+        t.style.display = t.style.display === 'block' ? 'none' : 'block';
+      }));
+
+      // Accordion: bir satır açıldığında diğerleri kapansın
+      document.addEventListener('click', (e) => {
+        if (e.target.closest('summary')){
+          const current = e.target.closest('details.accordion');
+          if (!current) return;
+          const all = Array.from(document.querySelectorAll('details.accordion'));
+          all.forEach(d => { if (d !== current) d.removeAttribute('open'); });
+        }
+      });
+
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const text = (input.value || '').trim();
+        if (!text) {
+          resultBlock.style.display = 'block';
+          evaluationText.textContent = 'Lütfen rapor metni girin.';
+          return;
+        }
+
+        btn.disabled = true;
+        loading.style.display = 'inline';
+        resultBlock.style.display = 'block';
+        evaluationText.textContent = 'Değerlendiriliyor...';
+        
+
+        try {
+          const body = new URLSearchParams();
+          body.append('report_text', text);
+          const res = await fetch('/evaluate/', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body
+          });
+          const data = await res.json();
+          // Build sidebar sections & accordions
+          const s = data.structured || {};
+          const ri = s.report_info || {};
+          const diags = s.diagnoses || [];
+          const meds = s.medications || [];
+          const doctors = s.doctors || [];
+          const patient = s.patient_info || {};
+          const adds = s.additional_values || [];
+
+          // Sidebar content
+          secReport.innerHTML = '';
+          Object.entries(ri).forEach(([k,v]) => {
+            if (v) secReport.insertAdjacentHTML('beforeend', `<div class="item"><strong>${k}:</strong> ${v}</div>`);
+          });
+          secPatient.innerHTML = '';
+          Object.entries(patient).forEach(([k,v]) => {
+            if (v) secPatient.insertAdjacentHTML('beforeend', `<div class="item"><strong>${k}:</strong> ${v}</div>`);
+          });
+          secDoctors.innerHTML = '';
+          doctors.forEach((d,i) => {
+            secDoctors.insertAdjacentHTML('beforeend', `<div class="item"><strong>Doktor ${i+1}:</strong> ${d.name || ''} — ${d.specialty || ''} (${d.diploma_number || ''}/${d.registration_number || ''})</div>`);
+          });
+          secDx.innerHTML = '';
+          diags.forEach((d,i) => {
+            secDx.insertAdjacentHTML('beforeend', `<div class="item"><strong>${d.code}</strong> ${d.description || ''} ${d.start_date?`[${d.start_date} → ${d.end_date||''}]`:''}</div>`);
+          });
+          secMeds.innerHTML = '';
+          meds.forEach((m,i) => {
+            secMeds.insertAdjacentHTML('beforeend', `<div class="item"><strong>${m.code}</strong> ${m.name || ''} — ${m.treatment_scheme || ''} ${m.quantity || ''}</div>`);
+          });
+          secAdd.innerHTML = '';
+          adds.forEach((av) => {
+            secAdd.insertAdjacentHTML('beforeend', `<div class="item"><strong>${av.type}</strong>: ${av.value} ${av.added_time?`(${av.added_time})`:''}</div>`);
+          });
+
+          // Accordion content
+          const kvFill = (el, obj) => {
+            el.innerHTML = '';
+            Object.entries(obj).forEach(([k,v]) => {
+              if (v) el.insertAdjacentHTML('beforeend', `<div class=\"k\">${k}</div><div class=\"v\">${v}</div>`);
+            });
+          };
+          kvFill(accReport, ri);
+          kvFill(accPatient, patient);
+          accAdd.innerHTML = '';
+          adds.forEach(av => {
+            accAdd.insertAdjacentHTML('beforeend', `<div class=\"k\">${av.type}</div><div class=\"v\">${av.value} ${av.added_time?`(${av.added_time})`:''}</div>`);
+          });
+          accDoctors.innerHTML = '';
+          doctors.forEach((d,i) => {
+            accDoctors.insertAdjacentHTML('beforeend', `<div class=\"card\" style=\"margin-bottom:8px;\"><div class=\"kv\"><div class=\"k\">Ad Soyad</div><div class=\"v\">${d.name||''}</div><div class=\"k\">Branş</div><div class=\"v\">${d.specialty||''}</div><div class=\"k\">Diploma</div><div class=\"v\">${d.diploma_number||''}</div><div class=\"k\">Tescil</div><div class=\"v\">${d.registration_number||''}</div></div></div>`);
+          });
+          accDx.innerHTML = '';
+          diags.forEach((d,i) => {
+            accDx.insertAdjacentHTML('beforeend', `<div class=\"card\" style=\"margin-bottom:8px;\"><div class=\"kv\"><div class=\"k\">Kod</div><div class=\"v\">${d.code||''}</div><div class=\"k\">Açıklama</div><div class=\"v\">${d.description||''}</div><div class=\"k\">Başlangıç</div><div class=\"v\">${d.start_date||''}</div><div class=\"k\">Bitiş</div><div class=\"v\">${d.end_date||''}</div></div></div>`);
+          });
+          accMeds.innerHTML = '';
+          meds.forEach((m,i) => {
+            accMeds.insertAdjacentHTML('beforeend', `<div class=\"card\" style=\"margin-bottom:8px;\"><div class=\"kv\"><div class=\"k\">Kod</div><div class=\"v\">${m.code||''}</div><div class=\"k\">Ad</div><div class=\"v\">${m.name||''}</div><div class=\"k\">Form</div><div class=\"v\">${m.form||''}</div><div class=\"k\">Şema</div><div class=\"v\">${m.treatment_scheme||''}</div><div class=\"k\">Miktar</div><div class=\"v\">${m.quantity||''}</div></div></div>`);
+          });
+          answerBlock.style.display = 'block';
+          if (data.assistant && data.assistant.status === 'success') {
+            evaluationText.textContent = data.assistant.evaluation || 'Yanıt boş';
+          } else if (data.assistant && data.assistant.status === 'skipped') {
+            evaluationText.textContent = 'API anahtarları ayarlı değil. Sadece parse sonucu gösteriliyor.';
+          } else {
+            evaluationText.textContent = (data.assistant && (data.assistant.message || data.assistant.error)) || 'Değerlendirme yapılamadı.';
+          }
+          // Enable feedback UI
+          fbModal.style.display = 'none';
+          fbStatus.style.display = 'none';
+          fbCorrect.onclick = async () => {
+            fbModal.style.display = 'none';
+            await submitFeedback('correct');
+          };
+          fbIncorrect.onclick = () => {
+            openFbModal();
+          };
+          document.getElementById('fbSubmit').onclick = async () => {
+            await submitFeedback('incorrect');
+            fbModal.style.display = 'none';
+          };
+          document.getElementById('fbCancel').onclick = () => { fbModal.style.display = 'none'; };
+
+          function openFbModal(){
+            fbStatus.style.display = 'none';
+            fbComment.value = '';
+            const options = ['Yanlış tanı-eşleşme','Doz/şema hatası','Mevzuat dayanağı eksik','Eksik bilgi gözardı','Dil/format sorunları'];
+            fbChips.innerHTML = '';
+            options.forEach(opt => {
+              const el = document.createElement('span');
+              el.className = 'chip';
+              el.textContent = opt;
+              el.onclick = () => el.classList.toggle('selected');
+              fbChips.appendChild(el);
+            });
+            fbModal.style.display = 'flex';
+          }
+
+          async function submitFeedback(statusVal){
+            try{
+              const reasonChecks = Array.from(fbChips.querySelectorAll('.chip.selected')).map(i=>i.textContent);
+              const payload = {
+                status: statusVal,
+                reasons: reasonChecks,
+                comment: fbComment.value || null,
+                context: {
+                  input_text: text || null,
+                  assistant_text: evaluationText.textContent || null,
+                  thread_id: (data && data.assistant && data.assistant.thread_id) ? data.assistant.thread_id : null,
+                  report_info: ri,
+                }
+              };
+              fbStatus.style.display = 'inline';
+              fbStatus.textContent = 'Gönderiliyor...';
+              const res = await fetch('/feedback/', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+              });
+              const out = await res.json();
+              if (res.ok && out.ok){
+                fbStatus.textContent = 'Teşekkürler, kaydedildi.';
+              } else {
+                fbStatus.textContent = 'Kaydedilemedi: ' + (out.error || res.status);
+              }
+            }catch(err){
+              fbStatus.style.display = 'inline';
+              fbStatus.textContent = 'Hata: ' + (err?.message || err);
+            }
+          }
+        } catch (err) {
+          evaluationText.textContent = 'İstek başarısız: ' + (err && err.message ? err.message : err);
+        } finally {
+          btn.disabled = false;
+          loading.style.display = 'none';
+      }
+    });
+  </script>
+  </body>
+</html>
