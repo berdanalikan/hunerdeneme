@@ -2,6 +2,8 @@ from django.shortcuts import render
 from django.http import JsonResponse, HttpRequest
 from django.views.decorators.csrf import csrf_exempt
 from pathlib import Path
+import time
+import hashlib
 import os
 import json
 from parser import MedicalReportParser
@@ -50,10 +52,17 @@ def evaluate_report(request: HttpRequest):
         return JsonResponse({'error': 'Rapor metni boş. Metin yapıştırın veya bir dosya yükleyin.'}, status=400)
 
     parser = MedicalReportParser()
+    start_ts = time.time()
+    parse_ok = False
+    thread_id = None
+    assistant_status = None
+    error_msg = None
     try:
         report = parser.parse(text)
+        parse_ok = True
     except Exception as e:
-        return JsonResponse({'error': f'Parse hatası: {str(e)}'}, status=500)
+        error_msg = f'Parse hatası: {str(e)}'
+        return JsonResponse({'error': error_msg}, status=500)
 
     result = {
         'structured': report.to_dict(),
@@ -66,13 +75,42 @@ def evaluate_report(request: HttpRequest):
             client = MedicalReportAssistantClient()
             evaluation = client.evaluate_report(report)
             result['assistant'] = evaluation
+            assistant_status = evaluation.get('status')
+            thread_id = evaluation.get('thread_id')
         else:
             result['assistant'] = {'status': 'skipped', 'message': 'API credentials missing'}
+            assistant_status = 'skipped'
     except Exception as e:
-        result['assistant'] = {'status': 'error', 'message': str(e)}
+        error_msg = str(e)
+        result['assistant'] = {'status': 'error', 'message': error_msg}
+        assistant_status = 'error'
 
-    # Supabase'e konuşma kaydı (opsiyonel)
-    # Not: Artık konuşma kaydı eklemiyoruz; sadece /feedback üzerinde minimal alanlar kaydedilecek
+    # Supabase'e istek günlüğü (request log) kaydı
+    try:
+        sb = _get_supabase_client()
+        if sb:
+            # IP & UA
+            client_ip = request.META.get('HTTP_X_FORWARDED_FOR', '').split(',')[0].strip() or request.META.get('REMOTE_ADDR')
+            user_agent = request.META.get('HTTP_USER_AGENT')
+            # Input hash & len
+            input_bytes = text.encode('utf-8', errors='ignore')
+            input_len = len(input_bytes)
+            input_hash = hashlib.sha256(input_bytes).hexdigest()
+            latency_ms = int((time.time() - start_ts) * 1000)
+            sb.table('request_log').insert({
+                'client_ip': client_ip,
+                'user_agent': user_agent,
+                'input_len': input_len,
+                'input_sha256': input_hash,
+                'parse_ok': parse_ok,
+                'assistant_status': assistant_status,
+                'thread_id': thread_id,
+                'latency_ms': latency_ms,
+                'error': error_msg,
+            }).execute()
+    except Exception:
+        # Sessiz geç; logging başarısızlığı kullanıcıya yansıtma
+        pass
 
     return JsonResponse(result)
 
