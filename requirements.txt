@@ -4,3 +4,4 @@ python-dotenv>=1.0.0
 supabase>=2.6.0
 gunicorn>=21.2.0
 whitenoise>=6.7.0
+schedule>=1.2.0

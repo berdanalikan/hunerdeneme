@@ -1,0 +1,104 @@
+[
+  {
+    "timestamp": "2025-09-17T09:00:21.439919",
+    "analysis": {
+      "total_feedback": 2,
+      "positive_feedback": [
+        {
+          "id": "dd966e3f-e9e6-46e0-91b3-c5cf2e800460",
+          "olusturma_zamani": "2025-09-16T11:33:00.396974+00:00",
+          "kullanici_girdisi": "Cinsiyeti :  Erkek   Doğum Tarihi :  23/09/1987 \n \nRapor Bilgileri \n Rapor Numarası (*) :  105052   Rapor Tarihi (*) :  25/08/2025 \n Protokol No :  143634806    Düzenleme Türü :  Uzman Hekim Raporu \n Açıklama :     Kayıt Şekli  :  Elektronik İmzalı Rapor  \n Tesis Kodu (*)  :  11330005    Rapor Takip No  :  519294695  \n Tesis Ünvanı  :  MERSIN TOROS DEVLET HASTANESİ(S)  \n Kullanıcı Adı  :  MUSTAFA AKCA  \nAçıklamalar Eklenme Zamanı Not \n. 25/08/2025 11:22  \nMERSİN DEVLET HAST 26.09.2016 TARİH VE 7004860 NOLU RAPORA İSTİNADEN TEDAVİNİN DEVAMI UYGUNDUR, TEDAVİ BAŞLANGICI RAPORU MEVZUATA UYGUNDUR HBSAG + İLK HBV DNA 8884 IU/ML TAKİPTE TENOFOVİR KULLANIRKEN NEGATİF OLAN HBV-DNA NIN YENİDEN POZİTİFLEŞMESİ NEDENİYLE TEDAVİYE ENTEKAVİR İLE DEVAM EDİLECEK.,07.04.2023 GÜNCEL HBSAG POZİTİF.MEVCUT TEDAVİNİN DEVAMI UYGUNDUR.11 /07/2024 GÜNCEL HBSAG POZİTİF. ANTİ HBS NEGATİF. MEVCUT TEDAVİNİN DEVAMI UYGUNDUR. 25.08.2025 GÜNCEL HBSAG POZİTİF.MEVCUT TEDAVİNİN DEVAMI UYGUNDUR. 25/08/2025 11:22  \n \n \nTanı Bilgileri \nTanı   Başlangıç Bitiş \n14.01 - Hepatit B Enfeksiyon(B18.1) \nB18.1 KRONİK VİRAL HEPATİT B, DELTA AJANSIZ \n  \n  \n  \n  \n \n  25/08/2025 25/08/2026 \n \n \nDoktor Bilgileri \nDr. Diploma No Dip. Tescil No Branş Adı Soyadı \n2434 72435 Enfeksiyon Hastalıkları ve Klinik Mikrobiyoloji HAVVA MENDEŞ \n \n \nRapor Etkin Madde Bilgileri \nKodu Adı Form Tedavi Şema Adet / Miktar İçerik Mik. Eklenme Zamanı  \nSGKEZA ENTEKAVIR Ağızdan katı Günde 1 x 1.0 Adet   25/08/2025 11:22",
+          "asistan_cevabi": "Bilgilere dayalı olarak, Entekavir ilacı için gerekli olan doz ve doz sıklığı bilgileri eksik olduğundan dolayı şu anda uygunluk değerlendirmesi yapılamamaktadır. Ayrıca ilaç etkileşimleri ve izlem parametreleri hakkında da eksik bilgi bulunmaktadır. Eksik bilgilerin tamamlanması gerekmektedir. Hastanın tedavi planı ve ilaç kullanımına ilişkin detaylar rapora eklenmelidir. Bu bilgilerin tamamlanmasının ardından uygunluk değerlendirmesi tekrar yapılabilir.",
+          "geri_bildirim": "dogru",
+          "neden": null,
+          "neden_aciklama": null
+        }
+      ],
+      "negative_feedback": [
+        {
+          "id": "f1de9525-4a7a-4427-84f7-af7fa22f0b4b",
+          "olusturma_zamani": "2025-09-17T05:34:48.697261+00:00",
+          "kullanici_girdisi": "T.C. Kimlik No :  25081892****   Adı / Soyadı : BURHAN YERGİN \n \n Cinsiyeti :  Erkek   Doğum Tarihi :  19/10/1973 \n \nRapor Bilgileri \n Rapor Numarası (*) :  113087   Rapor Tarihi (*) :  15/09/2025 \n Protokol No :  145426461    Düzenleme Türü :  Uzman Hekim Raporu \n Açıklama :     Kayıt Şekli  :  Elektronik İmzalı Rapor  \n Tesis Kodu (*)  :  11330005    Rapor Takip No  :  522049574  \n Tesis Ünvanı  :  MERSIN TOROS DEVLET HASTANESİ(S)  \n Kullanıcı Adı  :  MUSTAFA AKCA  \nAçıklamalar Eklenme Zamanı Not \n. 15/09/2025 15:49  \n. 15/09/2025 15:49  \n \n \nTanı Bilgileri \nTanı   Başlangıç Bitiş \n04.05 - Arteriyel Hipertansiyon(I10 -I13)(I15) \nI10 ESANSİYEL (PRİMER) HİPERTANSİYON \n  \n  \n  \n  \n \n  15/09/2025 15/09/2026 \n \n \nDoktor Bilgileri \nDr. Diploma No Dip. Tescil No Branş Adı Soyadı \n12308 143851 İç Hastalıkları (Ana Branş) FADİME ARSLAN KARAKILIÇ \n \n \nRapor Etkin Madde Bilgileri \nKodu Adı Form Tedavi Şema Adet / Miktar İçerik Mik. Eklenme Zamanı  \nSGKEQE AMLODIPIN Ağızdan katı Günde 1 x 1.0 Adet   15/09/2025 15:49",
+          "asistan_cevabi": "Belirtilen bilgilere dayanarak SUT ve SGK mevzuatına göre raporu değerlendireceğim.\n\n---\n\nÖzet:\nRapor, ele alınan hasta için \"Arteriyel Hipertansiyon\" tanısı ve \"Amlodipin\" isimli ilacı içermektedir. İlaç bazlı değerlendirmede doz/süre ve belgelendirme/izlem kriterlerinin karşılanması gerekmektedir. Ayrıca, eksik bilgiler bulunmaktadır.\n\n---\n\nTanı Özeti:\nHasta, \"Arteriyel Hipertansiyon\" tanısı almıştır (\"I10 -I13)(I15\").\n\n---\n\nİlaç Bazlı Değerlendirme:\n- **Amlodipin**:\n  - **Endikasyon Uygunluğu:** SUT ve ICD-10'a göre değerlendirme yapılamadı, eksik bilgi.\n  - **Doz/Süre:** Belirtilen doz uygun görünmektedir.\n  - **Kombinasyon/Etkileşim:** Verilerde başka ilaç bulunmamaktadır, etkileşim kontrolü yapılamadı.\n  - **Belge/İzlem:** Hasta izlem bilgileri ve kurul raporu bulunmamaktadır, eksik bilgi.\n  - **Karar:** Endikasyon uygunluğu belirlenemedi, eksik belge ve izlem.\n\n---\n\nEksik Bilgi/Gerekli Belgeler:\n1. Amlodipin'in endikasyon uygunluğunun SUT ve ICD-10'a göre değerlendirilmesi için tanı raporu ve detaylı hasta geçmişi gerekmektedir.\n2. Hasta izlem bilgileri ve kurul raporu sağlanmalıdır.\n\n---\n\nMevzuat Dayanakları:\nBelirtilen bilgilerle mevzuat dayanağı bulunamadı.\n\n---\n\nSon Karar:\nAmlodipin için endikasyon uygunluğu belirlenemedi, eksik belge ve izlem bilgileri bulunmaktadır.\n\n---\n\nBu değerlendirme, hastanın mevcut durumu ve ilaç tedavisi için gerekli bilgilerin eksikliği nedeniyle kesin bir değerlendirme yapılamadığını göstermektedir. Raporun tamamlanması ve ilave bilgilerin sağlanması durumunda tekrar değerlendirme yapılması gerekmektedir.",
+          "geri_bildirim": "yanlis",
+          "neden": "Mevzuat dayanağı eksik",
+          "neden_aciklama": "AMLODIPIN ( YANİ NORVASC ) ARTERİYEL HİPERTANSİYON TANISI İLE ÖDENİR."
+        }
+      ],
+      "error_patterns": {
+        "Mevzuat dayanağı eksik": 1
+      },
+      "success_patterns": {},
+      "common_issues": [
+        [
+          "Mevzuat dayanağı eksik",
+          1
+        ]
+      ],
+      "success_rate": 50.0,
+      "trend_analysis": {},
+      "specific_feedback": [
+        {
+          "reason": "Mevzuat dayanağı eksik",
+          "comment": "AMLODIPIN ( YANİ NORVASC ) ARTERİYEL HİPERTANSİYON TANISI İLE ÖDENİR.",
+          "user_input": "T.C. Kimlik No :  25081892****   Adı / Soyadı : BURHAN YERGİN \n \n Cinsiyeti :  Erkek   Doğum Tarihi :  19/10/1973 \n \nRapor Bilgileri \n Rapor Numarası (*) :  113087   Rapor Tarihi (*) :  15/09/2025 \n P",
+          "assistant_response": "Belirtilen bilgilere dayanarak SUT ve SGK mevzuatına göre raporu değerlendireceğim.\n\n---\n\nÖzet:\nRapor, ele alınan hasta için \"Arteriyel Hipertansiyon\" tanısı ve \"Amlodipin\" isimli ilacı içermektedir. "
+        }
+      ]
+    },
+    "instructions": "Sen Türk sağlık mevzuatına göre tıbbi raporları değerlendiren bir uzmansın. \nGelen raporları şu kriterlere göre değerlendir:\n- ICD kodlarının doğruluğu\n- İlaç dozajlarının uygunluğu  \n- Tanı-tedavi uyumluluğu\n- Mevzuata uygunluk\n- Eksik bilgilerin tespiti\n\nDeğerlendirme sonucunu detaylı ve yapıcı bir şekilde sun.\nDİKKAT: Mevcut başarı oranı %50.0. Daha dikkatli ve kapsamlı değerlendirme yap.\n\nYAYGIN HATALAR VE ÇÖZÜMLERİ:\n\n• MEVZUAT EKSİKLİĞİ (1 kez hata): Her değerlendirmende SUT/SGK mevzuatına dayalı gerekçelendirme sağla.\n  Mevzuat referanslarını açık bir şekilde belirt.\n\nSPESİFİK İYİLEŞTİRME ÖNERİLERİ:\n• AMLODIPIN ( YANİ NORVASC ) ARTERİYEL HİPERTANSİYON TANISI İLE ÖDENİR....\n\nGENEL DURUM: Son 2 feedback analiz edildi.\nDİKKAT: Performans düşük. Daha dikkatli değerlendirme yap.",
+    "success_rate": 50.0,
+    "total_feedback": 2
+  },
+  {
+    "timestamp": "2025-09-17T09:04:57.468522",
+    "analysis": {
+      "total_feedback": 2,
+      "positive_feedback": [
+        {
+          "id": "dd966e3f-e9e6-46e0-91b3-c5cf2e800460",
+          "olusturma_zamani": "2025-09-16T11:33:00.396974+00:00",
+          "kullanici_girdisi": "Cinsiyeti :  Erkek   Doğum Tarihi :  23/09/1987 \n \nRapor Bilgileri \n Rapor Numarası (*) :  105052   Rapor Tarihi (*) :  25/08/2025 \n Protokol No :  143634806    Düzenleme Türü :  Uzman Hekim Raporu \n Açıklama :     Kayıt Şekli  :  Elektronik İmzalı Rapor  \n Tesis Kodu (*)  :  11330005    Rapor Takip No  :  519294695  \n Tesis Ünvanı  :  MERSIN TOROS DEVLET HASTANESİ(S)  \n Kullanıcı Adı  :  MUSTAFA AKCA  \nAçıklamalar Eklenme Zamanı Not \n. 25/08/2025 11:22  \nMERSİN DEVLET HAST 26.09.2016 TARİH VE 7004860 NOLU RAPORA İSTİNADEN TEDAVİNİN DEVAMI UYGUNDUR, TEDAVİ BAŞLANGICI RAPORU MEVZUATA UYGUNDUR HBSAG + İLK HBV DNA 8884 IU/ML TAKİPTE TENOFOVİR KULLANIRKEN NEGATİF OLAN HBV-DNA NIN YENİDEN POZİTİFLEŞMESİ NEDENİYLE TEDAVİYE ENTEKAVİR İLE DEVAM EDİLECEK.,07.04.2023 GÜNCEL HBSAG POZİTİF.MEVCUT TEDAVİNİN DEVAMI UYGUNDUR.11 /07/2024 GÜNCEL HBSAG POZİTİF. ANTİ HBS NEGATİF. MEVCUT TEDAVİNİN DEVAMI UYGUNDUR. 25.08.2025 GÜNCEL HBSAG POZİTİF.MEVCUT TEDAVİNİN DEVAMI UYGUNDUR. 25/08/2025 11:22  \n \n \nTanı Bilgileri \nTanı   Başlangıç Bitiş \n14.01 - Hepatit B Enfeksiyon(B18.1) \nB18.1 KRONİK VİRAL HEPATİT B, DELTA AJANSIZ \n  \n  \n  \n  \n \n  25/08/2025 25/08/2026 \n \n \nDoktor Bilgileri \nDr. Diploma No Dip. Tescil No Branş Adı Soyadı \n2434 72435 Enfeksiyon Hastalıkları ve Klinik Mikrobiyoloji HAVVA MENDEŞ \n \n \nRapor Etkin Madde Bilgileri \nKodu Adı Form Tedavi Şema Adet / Miktar İçerik Mik. Eklenme Zamanı  \nSGKEZA ENTEKAVIR Ağızdan katı Günde 1 x 1.0 Adet   25/08/2025 11:22",
+          "asistan_cevabi": "Bilgilere dayalı olarak, Entekavir ilacı için gerekli olan doz ve doz sıklığı bilgileri eksik olduğundan dolayı şu anda uygunluk değerlendirmesi yapılamamaktadır. Ayrıca ilaç etkileşimleri ve izlem parametreleri hakkında da eksik bilgi bulunmaktadır. Eksik bilgilerin tamamlanması gerekmektedir. Hastanın tedavi planı ve ilaç kullanımına ilişkin detaylar rapora eklenmelidir. Bu bilgilerin tamamlanmasının ardından uygunluk değerlendirmesi tekrar yapılabilir.",
+          "geri_bildirim": "dogru",
+          "neden": null,
+          "neden_aciklama": null
+        }
+      ],
+      "negative_feedback": [
+        {
+          "id": "f1de9525-4a7a-4427-84f7-af7fa22f0b4b",
+          "olusturma_zamani": "2025-09-17T05:34:48.697261+00:00",
+          "kullanici_girdisi": "T.C. Kimlik No :  25081892****   Adı / Soyadı : BURHAN YERGİN \n \n Cinsiyeti :  Erkek   Doğum Tarihi :  19/10/1973 \n \nRapor Bilgileri \n Rapor Numarası (*) :  113087   Rapor Tarihi (*) :  15/09/2025 \n Protokol No :  145426461    Düzenleme Türü :  Uzman Hekim Raporu \n Açıklama :     Kayıt Şekli  :  Elektronik İmzalı Rapor  \n Tesis Kodu (*)  :  11330005    Rapor Takip No  :  522049574  \n Tesis Ünvanı  :  MERSIN TOROS DEVLET HASTANESİ(S)  \n Kullanıcı Adı  :  MUSTAFA AKCA  \nAçıklamalar Eklenme Zamanı Not \n. 15/09/2025 15:49  \n. 15/09/2025 15:49  \n \n \nTanı Bilgileri \nTanı   Başlangıç Bitiş \n04.05 - Arteriyel Hipertansiyon(I10 -I13)(I15) \nI10 ESANSİYEL (PRİMER) HİPERTANSİYON \n  \n  \n  \n  \n \n  15/09/2025 15/09/2026 \n \n \nDoktor Bilgileri \nDr. Diploma No Dip. Tescil No Branş Adı Soyadı \n12308 143851 İç Hastalıkları (Ana Branş) FADİME ARSLAN KARAKILIÇ \n \n \nRapor Etkin Madde Bilgileri \nKodu Adı Form Tedavi Şema Adet / Miktar İçerik Mik. Eklenme Zamanı  \nSGKEQE AMLODIPIN Ağızdan katı Günde 1 x 1.0 Adet   15/09/2025 15:49",
+          "asistan_cevabi": "Belirtilen bilgilere dayanarak SUT ve SGK mevzuatına göre raporu değerlendireceğim.\n\n---\n\nÖzet:\nRapor, ele alınan hasta için \"Arteriyel Hipertansiyon\" tanısı ve \"Amlodipin\" isimli ilacı içermektedir. İlaç bazlı değerlendirmede doz/süre ve belgelendirme/izlem kriterlerinin karşılanması gerekmektedir. Ayrıca, eksik bilgiler bulunmaktadır.\n\n---\n\nTanı Özeti:\nHasta, \"Arteriyel Hipertansiyon\" tanısı almıştır (\"I10 -I13)(I15\").\n\n---\n\nİlaç Bazlı Değerlendirme:\n- **Amlodipin**:\n  - **Endikasyon Uygunluğu:** SUT ve ICD-10'a göre değerlendirme yapılamadı, eksik bilgi.\n  - **Doz/Süre:** Belirtilen doz uygun görünmektedir.\n  - **Kombinasyon/Etkileşim:** Verilerde başka ilaç bulunmamaktadır, etkileşim kontrolü yapılamadı.\n  - **Belge/İzlem:** Hasta izlem bilgileri ve kurul raporu bulunmamaktadır, eksik bilgi.\n  - **Karar:** Endikasyon uygunluğu belirlenemedi, eksik belge ve izlem.\n\n---\n\nEksik Bilgi/Gerekli Belgeler:\n1. Amlodipin'in endikasyon uygunluğunun SUT ve ICD-10'a göre değerlendirilmesi için tanı raporu ve detaylı hasta geçmişi gerekmektedir.\n2. Hasta izlem bilgileri ve kurul raporu sağlanmalıdır.\n\n---\n\nMevzuat Dayanakları:\nBelirtilen bilgilerle mevzuat dayanağı bulunamadı.\n\n---\n\nSon Karar:\nAmlodipin için endikasyon uygunluğu belirlenemedi, eksik belge ve izlem bilgileri bulunmaktadır.\n\n---\n\nBu değerlendirme, hastanın mevcut durumu ve ilaç tedavisi için gerekli bilgilerin eksikliği nedeniyle kesin bir değerlendirme yapılamadığını göstermektedir. Raporun tamamlanması ve ilave bilgilerin sağlanması durumunda tekrar değerlendirme yapılması gerekmektedir.",
+          "geri_bildirim": "yanlis",
+          "neden": "Mevzuat dayanağı eksik",
+          "neden_aciklama": "AMLODIPIN ( YANİ NORVASC ) ARTERİYEL HİPERTANSİYON TANISI İLE ÖDENİR."
+        }
+      ],
+      "error_patterns": {
+        "Mevzuat dayanağı eksik": 1
+      },
+      "success_patterns": {},
+      "common_issues": [
+        [
+          "Mevzuat dayanağı eksik",
+          1
+        ]
+      ],
+      "success_rate": 50.0,
+      "trend_analysis": {},
+      "specific_feedback": [
+        {
+          "reason": "Mevzuat dayanağı eksik",
+          "comment": "AMLODIPIN ( YANİ NORVASC ) ARTERİYEL HİPERTANSİYON TANISI İLE ÖDENİR.",
+          "user_input": "T.C. Kimlik No :  25081892****   Adı / Soyadı : BURHAN YERGİN \n \n Cinsiyeti :  Erkek   Doğum Tarihi :  19/10/1973 \n \nRapor Bilgileri \n Rapor Numarası (*) :  113087   Rapor Tarihi (*) :  15/09/2025 \n P",
+          "assistant_response": "Belirtilen bilgilere dayanarak SUT ve SGK mevzuatına göre raporu değerlendireceğim.\n\n---\n\nÖzet:\nRapor, ele alınan hasta için \"Arteriyel Hipertansiyon\" tanısı ve \"Amlodipin\" isimli ilacı içermektedir. "
+        }
+      ]
+    },
+    "instructions": "Sen Türk sağlık mevzuatına göre tıbbi raporları değerlendiren bir uzmansın. Gelen raporları aşağıdaki kriterlere göre değerlendir:\n\n1. **ICD Kodlarının Doğruluğu**: Tanı için belirtilen ICD kodlarının doğru ve güncel olduğundan emin ol. Tanı ile eşleşmeyen veya yanlış kodlanan durumları mutlaka belirt.\n\n2. **İlaç Dozajlarının Uygunluğu**: İlaçların dozajlarının, tedavi protokollerine ve güncel klinik kılavuzlara uygun olup olmadığını kontrol et. Her zaman dozajın hastanın yaşı, kilosu ve genel sağlık durumu ile uyumlu olmasına dikkat et.\n\n3. **Tanı-Tedavi Uyumluluğu**: Tanı ile önerilen tedavi yöntemlerinin ve ilaçların uyumlu olup olmadığını değerlendir. Tanı ile ilişkili olmayan tedavi önerilerini mutlaka vurgula.\n\n4. **Mevzuata Uygunluk**: Raporun, SUT ve SGK mevzuatına uygunluğunu kontrol et. Mevzuat dayanağını mutlaka belirt ve eksik olan durumları açıkça ifade et.\n\n5. **Eksik Bilgilerin Tespiti**: Raporlarda eksik veya belirsiz bilgilerin olup olmadığını tespit et. Eksik bilgileri mutlaka belirt ve bu bilgilerin tamamlanması gerektiğini vurgula.\n\nDeğerlendirme sonucunu her zaman detaylı ve yapıcı bir şekilde sun. Raporun her bir bölümünü ayrı ayrı değerlendirerek, gerekçeli açıklamalarla destekle. Mevzuat dayanağını her zaman belirtmeyi unutma; bu, değerlendirmenin geçerliliği için kritik öneme sahiptir.",
+    "success_rate": 50.0,
+    "total_feedback": 2
+  }
+]
