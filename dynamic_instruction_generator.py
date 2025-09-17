@@ -64,6 +64,24 @@ class DynamicInstructionGenerator:
                 
                 if reason:
                     analysis['error_patterns'][reason] = analysis['error_patterns'].get(reason, 0) + 1
+                # Free-text neden_aciklama içeriğinden kategori çıkarımı (basit anahtar kelime haritalama)
+                if comment:
+                    lc = str(comment).lower()
+                    keyword_to_bucket = [
+                        (['icd', 'tanı', 'tani', 'kod'], 'Yanlış tanı-eşleşme'),
+                        (['doz', 'dozaj', 'şema', 'tedavi şema', 'titrasyon'], 'Doz/şema hatası'),
+                        (['sut', 'mevzuat', 'sgk', 'dayanak', 'kılavuz', 'kilavuz'], 'Mevzuat dayanağı eksik'),
+                        (['eksik', 'bilgi eksik', 'belirsiz', 'tamamlanmalı', 'tamamlanmali'], 'Eksik bilgi gözardı'),
+                        (['dil', 'format', 'biçim', 'bicim', 'anlaşılır', 'anlasilir'], 'Dil/format sorunları'),
+                    ]
+                    matched = False
+                    for keywords, bucket in keyword_to_bucket:
+                        if any(k in lc for k in keywords):
+                            analysis['error_patterns'][bucket] = analysis['error_patterns'].get(bucket, 0) + 1
+                            matched = True
+                    # Eşleşme yoksa genel eksik bilgiye at
+                    if not matched:
+                        analysis['error_patterns']['Eksik bilgi gözardı'] = analysis['error_patterns'].get('Eksik bilgi gözardı', 0) + 1
                 
                 # Spesifik feedback topla
                 analysis['specific_feedback'].append({

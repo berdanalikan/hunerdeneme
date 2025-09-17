@@ -16,7 +16,7 @@ export PATH="/Library/Frameworks/Python.framework/Versions/3.12/bin:$PATH"
 
 # Log başlangıcı
 echo "===========================================" >> "$LOG_FILE"
-echo "🚀 Hüner AI Assistant Eğitim Başlatıldı: $START_TIME" >> "$LOG_FILE"
+echo "🚀 Hüner AI Assistant Eğitim Başlatıldı (12s periyodik): $START_TIME" >> "$LOG_FILE"
 echo "===========================================" >> "$LOG_FILE"
 
 # Sistem kontrolü

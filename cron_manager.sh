@@ -48,7 +48,7 @@ install_cron() {
     chmod +x "$PROJECT_DIR/$SCRIPT_NAME"
     
     # Cron job'ı ekle
-    CRON_JOB="0 9 * * * $PROJECT_DIR/$SCRIPT_NAME"
+    CRON_JOB="0 */12 * * * $PROJECT_DIR/$SCRIPT_NAME"
     
     # Mevcut cron job'ları kontrol et
     if crontab -l 2>/dev/null | grep -q "$SCRIPT_NAME"; then
@@ -69,7 +69,7 @@ install_cron() {
     
     if [ $? -eq 0 ]; then
         echo -e "${GREEN}✅ Cron job başarıyla kuruldu!${NC}"
-        echo -e "${BLUE}📅 Çalışma Zamanı:${NC} Her gün saat 09:00"
+        echo -e "${BLUE}📅 Çalışma Zamanı:${NC} 12 saatte bir (00:00, 12:00)"
         echo -e "${BLUE}📁 Script:${NC} $PROJECT_DIR/$SCRIPT_NAME"
         echo -e "${BLUE}📝 Log:${NC} $PROJECT_DIR/training.log"
     else
@@ -163,22 +163,24 @@ generate_monitoring_report() {
 
 edit_cron_settings() {
     echo -e "\n${GREEN}⚙️  Cron Job Ayarları:${NC}"
-    echo -e "${BLUE}Mevcut ayar:${NC} Her gün saat 09:00"
+    echo -e "${BLUE}Mevcut ayar:${NC} 12 saatte bir (00:00, 12:00)"
     echo -e "\n${YELLOW}Yeni zamanlama seçin:${NC}"
-    echo "1. Her gün saat 09:00 (varsayılan)"
-    echo "2. Her gün saat 12:00"
-    echo "3. Her gün saat 18:00"
-    echo "4. Haftada 3 kez (Pazartesi, Çarşamba, Cuma saat 09:00)"
-    echo "5. Özel zamanlama"
+    echo "1. 12 saatte bir (00:00 ve 12:00) [varsayılan]"
+    echo "2. Her gün saat 09:00"
+    echo "3. Her gün saat 12:00"
+    echo "4. Her gün saat 18:00"
+    echo "5. Haftada 3 kez (Pzt/Çar/Cum 09:00)"
+    echo "6. Özel zamanlama"
     echo -e "\n${BLUE}Seçiminizi yapın (1-5):${NC} "
     read -r choice
     
     case $choice in
-        1) NEW_CRON="0 9 * * * $PROJECT_DIR/$SCRIPT_NAME" ;;
-        2) NEW_CRON="0 12 * * * $PROJECT_DIR/$SCRIPT_NAME" ;;
-        3) NEW_CRON="0 18 * * * $PROJECT_DIR/$SCRIPT_NAME" ;;
-        4) NEW_CRON="0 9 * * 1,3,5 $PROJECT_DIR/$SCRIPT_NAME" ;;
-        5)
+        1) NEW_CRON="0 */12 * * * $PROJECT_DIR/$SCRIPT_NAME" ;;
+        2) NEW_CRON="0 9 * * * $PROJECT_DIR/$SCRIPT_NAME" ;;
+        3) NEW_CRON="0 12 * * * $PROJECT_DIR/$SCRIPT_NAME" ;;
+        4) NEW_CRON="0 18 * * * $PROJECT_DIR/$SCRIPT_NAME" ;;
+        5) NEW_CRON="0 9 * * 1,3,5 $PROJECT_DIR/$SCRIPT_NAME" ;;
+        6)
             echo -e "${BLUE}Cron formatı girin (örn: 0 9 * * *):${NC} "
             read -r cron_time
             NEW_CRON="$cron_time $PROJECT_DIR/$SCRIPT_NAME"
