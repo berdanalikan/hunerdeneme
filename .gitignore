@@ -66,6 +66,14 @@ tmp/
 *_evaluation.json
 demo_report.json
 
+# Fine-tuning datasets and generators (do not commit)
+finetune_*.jsonl
+*finetune*.jsonl
+finetune_dpo.jsonl
+finetune_supervised.jsonl
+finetune_samples.jsonl
+generate_finetune_data.py
+
 # API Keys and Secrets
 secrets.txt
 api_keys.txt

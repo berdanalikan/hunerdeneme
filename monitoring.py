@@ -41,6 +41,11 @@ class TrainingMonitor:
             'password': os.getenv('ALERT_EMAIL_PASS'),
             'to_email': os.getenv('ALERT_TO_EMAIL')
         }
+
+        # Telegram config
+        self.telegram_enabled = os.getenv('TELEGRAM_ENABLED', 'false').lower() == 'true'
+        self.telegram_token = os.getenv('TELEGRAM_BOT_TOKEN')
+        self.telegram_chat_id = os.getenv('TELEGRAM_CHAT_ID')
     
     def get_system_health(self) -> Dict[str, Any]:
         """Sistem sağlığını kontrol eder"""
@@ -117,69 +122,47 @@ class TrainingMonitor:
     
     def send_alert(self, health_data: Dict[str, Any]):
         """Alert gönderir"""
-        if not self.email_config['enabled']:
-            print("📧 Email alerting devre dışı")
-            return
-        
+        sent_any = False
+
+        # Telegram alert
         try:
-            # Email içeriği oluştur
-            subject = f"🚨 Hüner AI Assistant Alert - {health_data['status'].upper()}"
-            
-            body = f"""
-Hüner AI Assistant Eğitim Sistemi Alert
-
-Durum: {health_data['status'].upper()}
-Mesaj: {health_data['message']}
-Zaman: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}
-
-Metrikler:
-"""
-            
-            if health_data['metrics']:
-                metrics = health_data['metrics']
-                body += f"""
-- Toplam Feedback: {metrics.get('total_feedback', 0)}
-- Pozitif Feedback: {metrics.get('positive_feedback', 0)}
-- Negatif Feedback: {metrics.get('negative_feedback', 0)}
-- Başarı Oranı: %{metrics.get('success_rate', 0):.1f}
-- Hata Oranı: %{metrics.get('error_rate', 0):.1f}
-- Analiz Periyodu: {metrics.get('period_days', 0)} gün
-"""
-            
-            body += f"""
-
-Günlük İstatistikler:
-"""
-            
-            if health_data['metrics'].get('daily_stats'):
-                for date, stats in health_data['metrics']['daily_stats'].items():
-                    daily_success = (stats['positive'] / stats['total']) * 100 if stats['total'] > 0 else 0
-                    body += f"- {date}: {stats['total']} feedback, %{daily_success:.1f} başarı\n"
-            
-            body += f"""
-
-Bu alert otomatik olarak gönderilmiştir.
-Hüner AI Assistant Eğitim Sistemi
-"""
-            
-            # Email gönder
-            msg = MIMEMultipart()
-            msg['From'] = self.email_config['username']
-            msg['To'] = self.email_config['to_email']
-            msg['Subject'] = subject
-            msg.attach(MIMEText(body, 'plain'))
-            
-            server = smtplib.SMTP(self.email_config['smtp_server'], self.email_config['smtp_port'])
-            server.starttls()
-            server.login(self.email_config['username'], self.email_config['password'])
-            text = msg.as_string()
-            server.sendmail(self.email_config['username'], self.email_config['to_email'], text)
-            server.quit()
-            
-            print(f"📧 Alert gönderildi: {health_data['status']}")
-            
+            if self.telegram_enabled and self.telegram_token and self.telegram_chat_id:
+                import requests
+                metrics = health_data.get('metrics', {})
+                text = (
+                    f"🚨 Hüner AI Alert - {health_data['status'].upper()}\n"
+                    f"Mesaj: {health_data['message']}\n"
+                    f"Başarı: %{metrics.get('success_rate', 0):.1f} | Hata: %{metrics.get('error_rate', 0):.1f} | Toplam: {metrics.get('total_feedback', 0)}\n"
+                    f"Zaman: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}"
+                )
+                url = f"https://api.telegram.org/bot{self.telegram_token}/sendMessage"
+                requests.post(url, data={
+                    'chat_id': self.telegram_chat_id,
+                    'text': text
+                }, timeout=10)
+                print("📨 Telegram alert gönderildi")
+                sent_any = True
         except Exception as e:
-            print(f"❌ Email gönderilemedi: {e}")
+            print(f"❌ Telegram alert hatası: {e}")
+
+        # Email fallback
+        if not sent_any and self.email_config['enabled']:
+            try:
+                subject = f"🚨 Hüner AI Assistant Alert - {health_data['status'].upper()}"
+                body = f"Durum: {health_data['status'].upper()}\nMesaj: {health_data['message']}\nZaman: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}"
+                msg = MIMEMultipart()
+                msg['From'] = self.email_config['username']
+                msg['To'] = self.email_config['to_email']
+                msg['Subject'] = subject
+                msg.attach(MIMEText(body, 'plain'))
+                server = smtplib.SMTP(self.email_config['smtp_server'], self.email_config['smtp_port'])
+                server.starttls()
+                server.login(self.email_config['username'], self.email_config['password'])
+                server.sendmail(self.email_config['username'], self.email_config['to_email'], msg.as_string())
+                server.quit()
+                print("📧 Email alert gönderildi")
+            except Exception as e:
+                print(f"❌ Email gönderilemedi: {e}")
     
     def generate_report(self) -> str:
         """Detaylı rapor oluşturur"""
