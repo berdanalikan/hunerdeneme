@@ -70,14 +70,20 @@ jobs:
         if: always()
         env:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
-          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          TELEGRAM_CHAT_IDS: ${{ secrets.TELEGRAM_CHAT_IDS || secrets.TELEGRAM_CHAT_ID }}
         run: |
           send() {
             local TEXT="$1"
-            curl -s -X POST "https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage" \
-              -d chat_id="${TELEGRAM_CHAT_ID}" \
-              -d parse_mode="HTML" \
-              --data-urlencode text="$TEXT" >/dev/null 2>&1 || true
+            if [ -z "${TELEGRAM_CHAT_IDS}" ]; then return 0; fi
+            IFS=',' read -r -a CHAT_IDS_ARR <<< "${TELEGRAM_CHAT_IDS}"
+            for CHAT in "${CHAT_IDS_ARR[@]}"; do
+              CHAT_TRIMMED="$(echo "$CHAT" | xargs)"
+              [ -z "$CHAT_TRIMMED" ] && continue
+              curl -s -X POST "https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage" \
+                -d chat_id="${CHAT_TRIMMED}" \
+                -d parse_mode="HTML" \
+                --data-urlencode text="$TEXT" >/dev/null 2>&1 || true
+            done
           }
           STATUS="${{ job.status }}"
           # Friendly note if precheck failed

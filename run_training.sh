@@ -17,15 +17,24 @@ export PATH="/Library/Frameworks/Python.framework/Versions/3.12/bin:$PATH"
 # Telegram config (optional)
 TELEGRAM_ENABLED=${TELEGRAM_ENABLED:-false}
 TELEGRAM_BOT_TOKEN=${TELEGRAM_BOT_TOKEN:-}
-TELEGRAM_CHAT_ID=${TELEGRAM_CHAT_ID:-}
+# Çoklu alıcı desteği: TELEGRAM_CHAT_IDS=123,456; geri uyumluluk için TELEGRAM_CHAT_ID kullanılır
+TELEGRAM_CHAT_IDS=${TELEGRAM_CHAT_IDS:-}
+if [ -z "$TELEGRAM_CHAT_IDS" ] && [ -n "$TELEGRAM_CHAT_ID" ]; then
+  TELEGRAM_CHAT_IDS="$TELEGRAM_CHAT_ID"
+fi
 
 send_telegram() {
   local TEXT="$1"
-  if [ "$TELEGRAM_ENABLED" = "true" ] && [ -n "$TELEGRAM_BOT_TOKEN" ] && [ -n "$TELEGRAM_CHAT_ID" ]; then
-    curl -s -X POST "https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage" \
-      -d chat_id="${TELEGRAM_CHAT_ID}" \
-      -d parse_mode="HTML" \
-      --data-urlencode text="$TEXT" >/dev/null 2>&1 || true
+  if [ "$TELEGRAM_ENABLED" = "true" ] && [ -n "$TELEGRAM_BOT_TOKEN" ] && [ -n "$TELEGRAM_CHAT_IDS" ]; then
+    IFS=',' read -r -a CHAT_IDS_ARR <<< "$TELEGRAM_CHAT_IDS"
+    for CHAT in "${CHAT_IDS_ARR[@]}"; do
+      CHAT_TRIMMED="$(echo "$CHAT" | xargs)"
+      [ -z "$CHAT_TRIMMED" ] && continue
+      curl -s -X POST "https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage" \
+        -d chat_id="${CHAT_TRIMMED}" \
+        -d parse_mode="HTML" \
+        --data-urlencode text="$TEXT" >/dev/null 2>&1 || true
+    done
   fi
 }
 
