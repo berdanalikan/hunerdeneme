@@ -29,10 +29,14 @@ jobs:
           TELEGRAM_ENABLED: 'true'
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY || secrets.SUPABASE_KEY }}
         run: |
           # Write minimal .env if needed for scripts that expect it
           if [ ! -f .env ]; then
             echo "OPENAI_API_KEY=${OPENAI_API_KEY}" > .env
+            if [ -n "${SUPABASE_URL}" ]; then echo "SUPABASE_URL=${SUPABASE_URL}" >> .env; fi
+            if [ -n "${SUPABASE_KEY}" ]; then echo "SUPABASE_SERVICE_KEY=${SUPABASE_KEY}" >> .env; fi
           fi
 
       - name: Run training
@@ -41,8 +45,15 @@ jobs:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY || secrets.SUPABASE_KEY }}
         run: |
           set -e
+          # Basic precheck for Supabase
+          if [ -z "${SUPABASE_URL}" ] || [ -z "${SUPABASE_KEY}" ]; then
+            echo "supabase_url is required (and SUPABASE_KEY or SUPABASE_SERVICE_KEY)" | tee -a training.log
+            exit 2
+          fi
           python simple_training.py | tee -a training.log
           python dynamic_instruction_generator.py | tee -a training.log
 
@@ -60,12 +71,18 @@ jobs:
               --data-urlencode text="$TEXT" >/dev/null 2>&1 || true
           }
           STATUS="${{ job.status }}"
+          # Friendly note if precheck failed
+          if grep -q "supabase_url is required" training.log 2>/dev/null; then
+            NOTE="\n⚠️ Gerekli Secrets eksik: SUPABASE_URL ve SUPABASE_SERVICE_KEY/SUPABASE_KEY"
+          else
+            NOTE=""
+          fi
           if [ -f training.log ]; then
             TAIL=$(tail -c 3000 training.log | sed -e 's/&/\&amp;/g' -e 's/</\&lt;/g' -e 's/>/\&gt;/g')
           else
             TAIL="(no log)"
           fi
-          send "🤖 Hüner AI Actions run\n<b>Durum:</b> ${STATUS}\n<pre>${TAIL}</pre>"
+          send "🤖 Hüner AI Actions run\n<b>Durum:</b> ${STATUS}${NOTE}\n<pre>${TAIL}</pre>"
 
       - name: Commit updated files (optional)
         if: ${{ github.ref == 'refs/heads/main' }}
