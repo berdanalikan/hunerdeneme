@@ -156,3 +156,16 @@ print(result['evaluation'])
 - API key ve Assistant ID'nin doğru ayarlandığından emin olun
 - Rapor formatının beklenen yapıya uygun olduğunu kontrol edin
 - Network bağlantısını kontrol edin
+
+## Uzakta (bilgisayar kapalıyken) zamanlanmış eğitim
+
+Depoda `.github/workflows/train.yml` ile bir GitHub Actions iş akışı eklidir. Bu iş akışı her 12 saatte bir çalışır, modeli eğitir/günceller ve Telegram'a özet gönderir.
+
+1) GitHub Secrets ekleyin (Repo Settings → Secrets and variables → Actions):
+   - `OPENAI_API_KEY`
+   - `TELEGRAM_BOT_TOKEN`
+   - `TELEGRAM_CHAT_ID`
+
+2) Actions sekmesinden manuel tetikleme de yapabilirsiniz ("Run workflow").
+
+3) `main` dalında çalışırken oluşan değişiklikleri (örn. `instruction_update_history.json`, `training.log`) otomatik commit/push eder.
