@@ -5,33 +5,33 @@ Bu doküman, depo içeriğinden otomatik çıkarılan yüksek seviyeli mimariyi 
 ### 1) Yüksek Seviye Mimarî
 ```mermaid
 flowchart LR
-  subgraph Client["Kullanıcı (Tarayıcı/CLI)"]
-    UI[Web UI (templates/index.html)]
-    CLI[CLI (main.py)]
+  subgraph Client[Client]
+    UI[Web UI]
+    CLI[CLI]
   end
 
-  subgraph Django["Django Web Uygulaması"]
-    V1[GET / (index)]
-    V2[POST /evaluate/]
-    V3[POST /feedback/]
+  subgraph Django[Django App]
+    V1[GET root]
+    V2[POST evaluate]
+    V3[POST feedback]
   end
 
-  subgraph Core["Çekirdek Mantık"]
-    P[parser.py <br/> MedicalReportParser]
-    M[models.py <br/> MedicalReport + DTOs]
-    OA[openai_client.py <br/> MedicalReportAssistantClient]
+  subgraph Core[Core Logic]
+    P[parser py MedicalReportParser]
+    M[models py MedicalReport and DTOs]
+    OA[openai client py AssistantClient]
   end
 
-  subgraph Ops["Operasyonlar"]
-    DIG[dynamic_instruction_generator.py]
-    MON[monitoring.py]
-    CRON[cron_manager.sh]
+  subgraph Ops[Operations]
+    DIG[dynamic instruction generator]
+    MON[monitoring]
+    CRON[cron manager]
   end
 
-  subgraph Ext["Dış Servisler / Artefaktlar"]
-    SB[Supabase <br/> feedback, request_log]
-    OAI[OpenAI API <br/> Assistants + Chat]
-    FS[Yerel Dosyalar <br/> *_structured.json, *_evaluation.json, <br/> monitoring_report_*.md, <br/> instruction_update_history.json]
+  subgraph Ext[External Services]
+    SB[Supabase]
+    OAI[OpenAI API]
+    FS[Local Files]
   end
 
   UI -->|form POST| V2
@@ -60,33 +60,33 @@ flowchart LR
 ### 2) Uçtan Uca İş Akışı
 ```mermaid
 flowchart TD
-  A[Web veya CLI Girdi] --> B{Kaynak}
-  B -- Web --> C1[POST /evaluate/]
-  B -- CLI --> C2[main.py]
+  A[Input from Web or CLI] --> B{Source}
+  B -- Web --> C1[POST evaluate]
+  B -- CLI --> C2[CLI main]
 
-  subgraph Parse["Parse ve Yapılandırma"]
-    P1[parser.parse(text)]
-    P2[MedicalReport (models.py)]
+  subgraph Parse[Parse and Structure]
+    P1[parser parse text]
+    P2[MedicalReport models]
   end
 
   C1 --> P1 --> P2
   C2 --> P1 --> P2
 
-  subgraph Eval["OpenAI Değerlendirme (opsiyonel)"]
-    E1{Env: OPENAI_API_KEY ve OPENAI_ASSISTANT_ID var mı}
-    E2[_prepare_message_content (TR prompt)]
-    E3[Threads.create -> messages.create(user)]
-    E4[Runs.create -> poll -> messages.list(assistant)]
+  subgraph Eval[OpenAI Evaluation optional]
+    E1{Env keys present}
+    E2[prepare message content]
+    E3[create thread and user message]
+    E4[run assistant and fetch reply]
   end
 
   P2 --> E1
-  E1 -- Hayır --> S1[Değerlendirme atlanır]
-  E1 -- Evet --> E2 --> E3 --> E4
+  E1 -- No --> S1[Skip evaluation]
+  E1 -- Yes --> E2 --> E3 --> E4
 
-  subgraph Out["Çıktılar ve Kayıt"]
-    O1[Web JSON: structured + assistant]
-    O2[CLI: *_structured.json + *_evaluation.json]
-    O3[request_log (Supabase)]
+  subgraph Out[Outputs and Logging]
+    O1[Web JSON result]
+    O2[CLI json files]
+    O3[Supabase request log]
   end
 
   E4 --> O1
@@ -94,38 +94,38 @@ flowchart TD
   C2 --> O2
   C1 --> O3
 
-  subgraph FB["Feedback Döngüsü"]
-    F1[POST /feedback/]
-    F2[Map: correct/incorrect -> dogru/yanlis]
-    F3[feedback tablosuna insert]
+  subgraph FB[Feedback Loop]
+    F1[POST feedback]
+    F2[Map to dogru or yanlis]
+    F3[Insert to feedback table]
   end
 
   O1 --> F1 --> F2 --> F3
 
-  subgraph DynIns["Dinamik Instructions Güncelleme"]
-    D1[Supabase feedback -> get_feedback_analysis(7g)]
-    D2{OpenAI üretim başarılı mı}
-    D3[generate_instructions_with_openai]
-    D4[generate_dynamic_instructions (heuristic)]
-    D5[assistants.update(instructions)]
-    D6[instruction_update_history.json]
+  subgraph DynIns[Dynamic Instructions Update]
+    D1[Analyze feedback 7d]
+    D2{OpenAI generation ok}
+    D3[generate with OpenAI]
+    D4[heuristic generation]
+    D5[update assistant]
+    D6[write history file]
   end
 
   F3 --> D1
   D1 --> D2
-  D2 -- Evet --> D3 --> D5 --> D6
-  D2 -- Hayır --> D4 --> D5 --> D6
+  D2 -- Yes --> D3 --> D5 --> D6
+  D2 -- No --> D4 --> D5 --> D6
 
-  subgraph Mon["Monitoring ve Alerting"]
-    M1[Supabase son 7g feedback -> metrikler]
-    M2{Eşikler aşıldı mı}
-    M3[Alert: Telegram veya Email]
-    M4[monitoring_report_YYYYMMDD_HHMM.md]
-    M5[Exit: healthy=0 | warning=1 | critical=2 | hata=3]
+  subgraph Mon[Monitoring and Alerts]
+    M1[Compute metrics]
+    M2{Thresholds violated}
+    M3[Send alert]
+    M4[Write monitoring report]
+    M5[Exit codes]
   end
 
   M1 --> M2
-  M2 -- Evet --> M3
+  M2 -- Yes --> M3
   M1 --> M4 --> M5
 ```
 
