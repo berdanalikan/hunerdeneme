@@ -110,7 +110,20 @@ class DynamicInstructionGenerator:
         
         return analysis
     
-    def generate_dynamic_instructions(self, analysis: Dict[str, Any]) -> str:
+    def load_last_instructions(self) -> str:
+        """Son kaydedilen instructions metnini döndürür (yoksa boş döner)."""
+        try:
+            history_file = 'instruction_update_history.json'
+            if os.path.exists(history_file):
+                with open(history_file, 'r', encoding='utf-8') as f:
+                    history = json.load(f) or []
+                if history:
+                    return str(history[-1].get('instructions') or '').strip()
+        except Exception:
+            pass
+        return ''
+
+    def generate_dynamic_instructions(self, analysis: Dict[str, Any], previous_instructions: str | None = None) -> str:
         """Feedback analizine göre tamamen dinamik instructions üretir"""
         # Not: Bu yerel (heuristic) üretici, OpenAI tabanlı üretici bulunamazsa geri dönüş olarak kullanılır
         # Temel instructions
@@ -206,10 +219,14 @@ DİKKAT: Mevcut başarı oranı %{success_rate:.1f}. Daha dikkatli ve kapsamlı 
                 improvements.append("BAŞARI: Performans iyi. Mevcut yaklaşımı sürdür.")
         
         # Tüm iyileştirmeleri birleştir
-        if improvements:
-            dynamic_instructions = base_instructions + "\n".join(improvements)
+        prior = (previous_instructions or '').strip()
+        if not prior:
+            base = base_instructions
         else:
-            dynamic_instructions = base_instructions
+            # Önceki sürümün üzerine katmanlı geliştirme: kısa revizyon bölümü ekle
+            base = prior
+        tail = "\n\n" + ("\n".join(improvements) if improvements else "")
+        dynamic_instructions = (base + tail).strip()
         
         return dynamic_instructions
     
@@ -225,7 +242,7 @@ DİKKAT: Mevcut başarı oranı %{success_rate:.1f}. Daha dikkatli ve kapsamlı 
         except Exception:
             return (text or "")[:max_len]
 
-    def _build_openai_prompt(self, analysis: Dict[str, Any]) -> list:
+    def _build_openai_prompt(self, analysis: Dict[str, Any], previous_instructions: str) -> list:
         """OpenAI'ya gönderilecek mesajları hazırlar (Chat formatı)."""
         total = analysis.get('total_feedback', 0)
         success_rate = analysis.get('success_rate', 0)
@@ -259,19 +276,13 @@ DİKKAT: Mevcut başarı oranı %{success_rate:.1f}. Daha dikkatli ve kapsamlı 
         user_payload = "\n".join(summary_lines + [""] + examples_lines)
 
         system_msg = (
-            "Sen 'Instruction Optimizer' rolündesin. Görevin: Bir tıbbi rapor değerlendirme asistanının"
-            " system instructions metnini, verilen feedback analizine göre PROFESYONEL ve SALT TÜRKÇE"
-            " olacak şekilde GÜNCELLEMEKTİR.\n\n"
-            "Kurallar:\n"
-            "- ÇIKTI SADECE yeni system instructions metni olmalı. Ek açıklama, başlık, markdown, JSON istemiyorum.\n"
-            "- Amaç: Asistanın SUT/SGK mevzuatına göre daha doğru, gerekçeli ve tutarlı sonuç vermesi.\n"
-            "- Kısa değil; ancak gereksiz tekrar içermeyecek kadar öz, net ve uygulanabilir talimatlar yaz.\n"
-            "- Yaygın hatalara (ör. tanı-eşleşme, doz/şema, mevzuat dayanağı) yönelik kesin talimatlar ekle.\n"
-            "- Dili kesin: 'Mutlaka', 'Her zaman', 'Önce', 'Daha sonra' gibi yönlendirici ifadeler kullan.\n"
-            "- Çıktı tamamen TÜRKÇE olmalı.\n"
+            "Rolün: 'Instruction Optimizer'. Görev: Feedback analizine dayanarak bir tıbbi rapor değerlendirme"
+            " asistanının system instructions metnini GELİŞTİRMEK. Yapı konusunda SERBESSİN; mevcut kalıbı"
+            " yeniden düzenleyebilir, yeni bölümler tanımlayabilir, maddeleri birleştirebilir/çıkartabilirsin."
+            " Çıktı SADECE TÜRKÇE olmalı ve sadece yeni system instructions metni olmalı."
         )
 
-        base_instructions = (
+        base_instructions = previous_instructions.strip() if previous_instructions else (
             "Sen Türk sağlık mevzuatına göre tıbbi raporları değerlendiren bir uzmansın.\n"
             "Gelen raporları şu kriterlere göre değerlendir:\n"
             "- ICD kodlarının doğruluğu\n"
@@ -283,9 +294,11 @@ DİKKAT: Mevcut başarı oranı %{success_rate:.1f}. Daha dikkatli ve kapsamlı 
         )
 
         user_msg = (
-            "Aşağıdaki bilgiler son günlerdeki feedback analizidir. Bu analizden hareketle üstte verdiğim"
-            " temel yönergeyi (system instructions) iyileştir ve tam metin yeni instructions üret.\n\n"
-            f"[Temel yönerge]\n{base_instructions}\n\n[Analiz]\n{user_payload}"
+            "Aşağıda ÖNCEKİ system instructions ve SON DÖNEM FEEDBACK analiz özeti var. "
+            "Amaç: Öncekini EVİRİP GELİŞTİREREK daha etkili bir metin üretmek. Yapı konusunda esneksin;"
+            " madde sayısını/bölümleri değiştirebilirsin. Her sürüm bir öncekine göre İLERLEME içermeli.\n\n"
+            f"[Önceki yönerge]\n{base_instructions}\n\n[Analiz]\n{user_payload}\n\n"
+            "Yalnızca yeni system instructions metnini döndür."
         )
 
         return [
@@ -293,14 +306,14 @@ DİKKAT: Mevcut başarı oranı %{success_rate:.1f}. Daha dikkatli ve kapsamlı 
             {"role": "user", "content": user_msg},
         ]
 
-    def generate_instructions_with_openai(self, analysis: Dict[str, Any]) -> str:
+    def generate_instructions_with_openai(self, analysis: Dict[str, Any], previous_instructions: str) -> str:
         """OpenAI'ya feedback analizini verip yeni instructions'ı doğrudan yazdırır."""
-        messages = self._build_openai_prompt(analysis)
+        messages = self._build_openai_prompt(analysis, previous_instructions)
         # openai >=1.0 Chat Completions
         resp = self.openai_client.chat.completions.create(
             model=os.getenv('OPENAI_INSTRUCTION_MODEL', 'gpt-4o-mini'),
             messages=messages,
-            temperature=0.2,
+            temperature=float(os.getenv('OPENAI_INSTRUCTION_TEMPERATURE', '0.4')),
             max_tokens=1200,
         )
         out = (resp.choices[0].message.content or "").strip()
@@ -316,6 +329,9 @@ DİKKAT: Mevcut başarı oranı %{success_rate:.1f}. Daha dikkatli ve kapsamlı 
                 print("❌ Analiz yapılamadı!")
                 return False
             
+            # Önceki instructions'ı yükle ve evrimi buna göre yap
+            previous_instructions = self.load_last_instructions()
+
             print(f"📊 Analiz Sonuçları:")
             print(f"   - Toplam feedback: {analysis['total_feedback']}")
             print(f"   - Başarı oranı: %{analysis['success_rate']:.1f}")
@@ -329,13 +345,13 @@ DİKKAT: Mevcut başarı oranı %{success_rate:.1f}. Daha dikkatli ve kapsamlı 
             
             print("\n🤖 Dinamik instructions oluşturuluyor (OpenAI tarafından)...")
             try:
-                new_instructions = self.generate_instructions_with_openai(analysis)
+                new_instructions = self.generate_instructions_with_openai(analysis, previous_instructions)
                 # Güvenlik: Boş dönerse heuristik üreticiye düş
                 if not new_instructions or len(new_instructions.strip()) < 40:
                     raise ValueError("Boş veya çok kısa çıktı")
             except Exception as oe:
                 print(f"⚠️ OpenAI üretimi başarısız, yerel üreticiye geçiliyor: {oe}")
-                new_instructions = self.generate_dynamic_instructions(analysis)
+                new_instructions = self.generate_dynamic_instructions(analysis, previous_instructions)
             
             print("\n📝 Yeni Instructions:")
             print("-" * 60)
