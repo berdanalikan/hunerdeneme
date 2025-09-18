@@ -102,6 +102,12 @@ python main.py --demo
 - `main.py`: Ana script
 - `requirements.txt`: Python paket gereksinimleri
 
+## Mimari ve İş Akışları
+
+Detaylı mimari ve uçtan uca iş akış diyagramları için:
+
+- `docs/ARCHITECTURE.md` dosyasını açın (GitHub üzerinde Mermaid diyagramları doğrudan görüntülenir).
+
 ## Rapor Formatı
 
 Sistem şu formatları destekler:
