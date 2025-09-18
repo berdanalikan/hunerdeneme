@@ -11,15 +11,15 @@ flowchart LR
   end
 
   subgraph Django["Django Web Uygulaması"]
-    V1[/GET /\nindex/]
-    V2[/POST /evaluate/]
-    V3[/POST /feedback/]
+    V1[GET / (index)]
+    V2[POST /evaluate/]
+    V3[POST /feedback/]
   end
 
   subgraph Core["Çekirdek Mantık"]
-    P[parser.py\nMedicalReportParser]
-    M[models.py\nMedicalReport + DTOs]
-    OA[openai_client.py\nMedicalReportAssistantClient]
+    P[parser.py <br/> MedicalReportParser]
+    M[models.py <br/> MedicalReport + DTOs]
+    OA[openai_client.py <br/> MedicalReportAssistantClient]
   end
 
   subgraph Ops["Operasyonlar"]
@@ -29,9 +29,9 @@ flowchart LR
   end
 
   subgraph Ext["Dış Servisler / Artefaktlar"]
-    SB[(Supabase\nfeedback, request_log)]
-    OAI[(OpenAI API\nAssistants + Chat)]
-    FS[(Yerel Dosyalar\n*_structured.json, *_evaluation.json,\nmonitoring_report_*.md,\ninstruction_update_history.json)]
+    SB[Supabase <br/> feedback, request_log]
+    OAI[OpenAI API <br/> Assistants + Chat]
+    FS[Yerel Dosyalar <br/> *_structured.json, *_evaluation.json, <br/> monitoring_report_*.md, <br/> instruction_update_history.json]
   end
 
   UI -->|form POST| V2
@@ -60,8 +60,8 @@ flowchart LR
 ### 2) Uçtan Uca İş Akışı
 ```mermaid
 flowchart TD
-  A[Web/CLI Girdi] --> B{Kaynak}
-  B -- Web --> C1[/POST /evaluate/]
+  A[Web veya CLI Girdi] --> B{Kaynak}
+  B -- Web --> C1[POST /evaluate/]
   B -- CLI --> C2[main.py]
 
   subgraph Parse["Parse ve Yapılandırma"]
@@ -73,10 +73,10 @@ flowchart TD
   C2 --> P1 --> P2
 
   subgraph Eval["OpenAI Değerlendirme (opsiyonel)"]
-    E1{Env: OPENAI_API_KEY & OPENAI_ASSISTANT_ID?}
+    E1{Env: OPENAI_API_KEY ve OPENAI_ASSISTANT_ID var mı}
     E2[_prepare_message_content (TR prompt)]
-    E3[Threads.create → messages.create(user)]
-    E4[Runs.create → poll → messages.list(assistant)]
+    E3[Threads.create -> messages.create(user)]
+    E4[Runs.create -> poll -> messages.list(assistant)]
   end
 
   P2 --> E1
@@ -95,16 +95,16 @@ flowchart TD
   C1 --> O3
 
   subgraph FB["Feedback Döngüsü"]
-    F1[/POST /feedback/]
-    F2[Map: correct/incorrect → dogru/yanlis]
+    F1[POST /feedback/]
+    F2[Map: correct/incorrect -> dogru/yanlis]
     F3[feedback tablosuna insert]
   end
 
   O1 --> F1 --> F2 --> F3
 
   subgraph DynIns["Dinamik Instructions Güncelleme"]
-    D1[Supabase feedback → get_feedback_analysis(7g)]
-    D2{OpenAI üretim başarılı mı?}
+    D1[Supabase feedback -> get_feedback_analysis(7g)]
+    D2{OpenAI üretim başarılı mı}
     D3[generate_instructions_with_openai]
     D4[generate_dynamic_instructions (heuristic)]
     D5[assistants.update(instructions)]
@@ -117,8 +117,8 @@ flowchart TD
   D2 -- Hayır --> D4 --> D5 --> D6
 
   subgraph Mon["Monitoring ve Alerting"]
-    M1[Supabase son 7g feedback → metrikler]
-    M2{Eşikler aşıldı mı?}
+    M1[Supabase son 7g feedback -> metrikler]
+    M2{Eşikler aşıldı mı}
     M3[Alert: Telegram veya Email]
     M4[monitoring_report_YYYYMMDD_HHMM.md]
     M5[Exit: healthy=0 | warning=1 | critical=2 | hata=3]
