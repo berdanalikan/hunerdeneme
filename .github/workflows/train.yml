@@ -26,6 +26,7 @@ jobs:
       - name: Prepare environment
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          OPENAI_ASSISTANT_ID: ${{ secrets.OPENAI_ASSISTANT_ID }}
           TELEGRAM_ENABLED: 'true'
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
@@ -35,6 +36,7 @@ jobs:
           # Write minimal .env if needed for scripts that expect it
           if [ ! -f .env ]; then
             echo "OPENAI_API_KEY=${OPENAI_API_KEY}" > .env
+            if [ -n "${OPENAI_ASSISTANT_ID}" ]; then echo "OPENAI_ASSISTANT_ID=${OPENAI_ASSISTANT_ID}" >> .env; fi
             if [ -n "${SUPABASE_URL}" ]; then echo "SUPABASE_URL=${SUPABASE_URL}" >> .env; fi
             if [ -n "${SUPABASE_KEY}" ]; then echo "SUPABASE_SERVICE_KEY=${SUPABASE_KEY}" >> .env; fi
           fi
@@ -45,6 +47,7 @@ jobs:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          OPENAI_ASSISTANT_ID: ${{ secrets.OPENAI_ASSISTANT_ID }}
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY || secrets.SUPABASE_KEY }}
         run: |
@@ -53,6 +56,11 @@ jobs:
           if [ -z "${SUPABASE_URL}" ] || [ -z "${SUPABASE_KEY}" ]; then
             echo "supabase_url is required (and SUPABASE_KEY or SUPABASE_SERVICE_KEY)" | tee -a training.log
             exit 2
+          fi
+          # Basic precheck for OpenAI Assistant
+          if [ -z "${OPENAI_API_KEY}" ] || [ -z "${OPENAI_ASSISTANT_ID}" ]; then
+            echo "openai_assistant_id is required (and OPENAI_API_KEY)" | tee -a training.log
+            exit 3
           fi
           python simple_training.py | tee -a training.log
           python dynamic_instruction_generator.py | tee -a training.log
@@ -74,6 +82,8 @@ jobs:
           # Friendly note if precheck failed
           if grep -q "supabase_url is required" training.log 2>/dev/null; then
             NOTE="\n⚠️ Gerekli Secrets eksik: SUPABASE_URL ve SUPABASE_SERVICE_KEY/SUPABASE_KEY"
+          elif grep -q "openai_assistant_id is required" training.log 2>/dev/null; then
+            NOTE="\n⚠️ Gerekli Secrets eksik: OPENAI_ASSISTANT_ID (ve OPENAI_API_KEY)"
           else
             NOTE=""
           fi
