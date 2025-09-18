@@ -2,7 +2,8 @@ name: Remote Training (12h)
 
 on:
   schedule:
-    - cron: '45 6 * * *'
+    - cron: '30 6 * * *'
+    - cron: '30 18 * * *'
   workflow_dispatch: {}
 
 jobs:
