@@ -5,33 +5,33 @@ Bu doküman, depo içeriğinden otomatik çıkarılan yüksek seviyeli mimariyi 
 ### 1) Yüksek Seviye Mimarî
 ```mermaid
 flowchart LR
-  subgraph Client[Client]
-    UI[Web UI]
-    CLI[CLI]
+  subgraph Client[Istemci]
+    UI[Web Arayuzu]
+    CLI[Komut Satiri]
   end
 
-  subgraph Django[Django App]
-    V1[GET root]
+  subgraph Django[Django Uygulamasi]
+    V1[GET ana sayfa]
     V2[POST evaluate]
     V3[POST feedback]
   end
 
-  subgraph Core[Core Logic]
-    P[parser py MedicalReportParser]
-    M[models py MedicalReport and DTOs]
-    OA[openai client py AssistantClient]
+  subgraph Core[Cekirdek Mantik]
+    P[parser py Rapor Ayristirici]
+    M[models py MedicalReport ve DTOLAR]
+    OA[openai client py Asistan Istemcisi]
   end
 
-  subgraph Ops[Operations]
-    DIG[dynamic instruction generator]
-    MON[monitoring]
-    CRON[cron manager]
+  subgraph Ops[Operasyonlar]
+    DIG[dinamik talimat olusturucu]
+    MON[izleme]
+    CRON[cron yonetimi]
   end
 
-  subgraph Ext[External Services]
+  subgraph Ext[Dis Servisler]
     SB[Supabase]
     OAI[OpenAI API]
-    FS[Local Files]
+    FS[Yerel Dosyalar]
   end
 
   UI -->|form POST| V2
@@ -60,33 +60,33 @@ flowchart LR
 ### 2) Uçtan Uca İş Akışı
 ```mermaid
 flowchart TD
-  A[Input from Web or CLI] --> B{Source}
+  A[Web veya CLI girdisi] --> B{Kaynak}
   B -- Web --> C1[POST evaluate]
   B -- CLI --> C2[CLI main]
 
-  subgraph Parse[Parse and Structure]
-    P1[parser parse text]
-    P2[MedicalReport models]
+  subgraph Parse[Parse ve Yapilandirma]
+    P1[parser metni ayrisir]
+    P2[MedicalReport modelleri]
   end
 
   C1 --> P1 --> P2
   C2 --> P1 --> P2
 
-  subgraph Eval[OpenAI Evaluation optional]
-    E1{Env keys present}
-    E2[prepare message content]
-    E3[create thread and user message]
-    E4[run assistant and fetch reply]
+  subgraph Eval[OpenAI Degerlendirme opsiyonel]
+    E1{Env anahtarlari mevcut mu}
+    E2[mesaj icerigi hazirla]
+    E3[thread ve kullanici mesaji olustur]
+    E4[assistant calistir yaniti cek]
   end
 
   P2 --> E1
-  E1 -- No --> S1[Skip evaluation]
-  E1 -- Yes --> E2 --> E3 --> E4
+  E1 -- Hayir --> S1[Degerlendirme atlanir]
+  E1 -- Evet --> E2 --> E3 --> E4
 
-  subgraph Out[Outputs and Logging]
-    O1[Web JSON result]
-    O2[CLI json files]
-    O3[Supabase request log]
+  subgraph Out[Ciktilar ve Kayitlar]
+    O1[Web JSON sonucu]
+    O2[CLI json dosyalari]
+    O3[Supabase istek gunlugu]
   end
 
   E4 --> O1
@@ -94,38 +94,38 @@ flowchart TD
   C2 --> O2
   C1 --> O3
 
-  subgraph FB[Feedback Loop]
+  subgraph FB[Geribildirim Dongusu]
     F1[POST feedback]
-    F2[Map to dogru or yanlis]
-    F3[Insert to feedback table]
+    F2[dogru veya yanlis]
+    F3[feedback tablosuna ekle]
   end
 
   O1 --> F1 --> F2 --> F3
 
-  subgraph DynIns[Dynamic Instructions Update]
-    D1[Analyze feedback 7d]
-    D2{OpenAI generation ok}
-    D3[generate with OpenAI]
-    D4[heuristic generation]
-    D5[update assistant]
-    D6[write history file]
+  subgraph DynIns[Dinamik Talimat Guncelleme]
+    D1[7 gun geribildirim analiz]
+    D2{OpenAI uretim basarili mi}
+    D3[OpenAI ile uret]
+    D4[heuristic uretim]
+    D5[assistant guncelle]
+    D6[gecmis dosyasina yaz]
   end
 
   F3 --> D1
   D1 --> D2
-  D2 -- Yes --> D3 --> D5 --> D6
-  D2 -- No --> D4 --> D5 --> D6
+  D2 -- Evet --> D3 --> D5 --> D6
+  D2 -- Hayir --> D4 --> D5 --> D6
 
-  subgraph Mon[Monitoring and Alerts]
-    M1[Compute metrics]
-    M2{Thresholds violated}
-    M3[Send alert]
-    M4[Write monitoring report]
-    M5[Exit codes]
+  subgraph Mon[Izleme ve Uyarilar]
+    M1[Metrikleri hesapla]
+    M2{Esikler asildi mi}
+    M3[Uyari gonder]
+    M4[Rapor yaz]
+    M5[Cikis kodlari]
   end
 
   M1 --> M2
-  M2 -- Yes --> M3
+  M2 -- Evet --> M3
   M1 --> M4 --> M5
 ```
 
