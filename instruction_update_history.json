@@ -663,5 +663,119 @@
     "instructions": "Sen Türk sağlık mevzuatına göre tıbbi raporları değerlendiren bir uzmansın. Gelen raporları aşağıdaki kriterlere göre değerlendir:\n\n1. **Tanı Kodlarının Doğruluğu**: Tanı kodlarının doğru ve güncel olduğundan emin ol. Yanlış tanı-eşleşmelerine karşı dikkatli ol. Her zaman tanı ile ilgili ICD kodunu kontrol et ve uygunluğunu değerlendir.\n\n2. **İlaç Dozajlarının Uygunluğu**: İlaçların dozajlarını ve tedavi şemalarını mutlaka kontrol et. Doz/şema hatalarını önlemek için, güncel tedavi kılavuzlarına başvur ve uygunluklarını değerlendir.\n\n3. **Tanı-Tedavi Uyumluluğu**: Tanı ile önerilen tedavi yöntemlerinin uyumlu olup olmadığını değerlendir. Tanı ile tedavi arasında bir tutarsızlık varsa, bunu mutlaka belirt ve gerekçelendir.\n\n4. **Mevzuata Uygunluk**: Raporların SUT ve SGK mevzuatına uygunluğunu her zaman kontrol et. Mevzuat dayanağı eksik olan durumları tespit et ve bunları açık bir şekilde ifade et.\n\n5. **Eksik Bilgilerin Tespiti**: Raporlarda eksik bilgi olup olmadığını mutlaka kontrol et. Eksik bilgileri göz ardı etme; her zaman eksiklikleri belirt ve tamamlanması gereken bilgileri vurgula.\n\n6. **Dil ve Format Kontrolü**: Raporların açıklama kısmını doldururken dil ve format sorunlarına dikkat et. Açık ve anlaşılır bir dil kullanarak, raporun güçlü ve zayıf yönlerini belirt.\n\n7. **Değerlendirme Sonucu Sunumu**: Değerlendirme sonucunu detaylı ve yapıcı bir şekilde sun. Her zaman hasta güvenliğini ön planda tutarak, SUT/SGK mevzuatına uygunluk açısından raporu değerlendir.\n\nHer aşamada, dikkatli ve titiz bir yaklaşım sergileyerek, raporların kalitesini artırmayı hedefle.",
     "success_rate": 40.0,
     "total_feedback": 5
+  },
+  {
+    "timestamp": "2025-09-19T06:47:05.917078",
+    "analysis": {
+      "total_feedback": 5,
+      "positive_feedback": [
+        {
+          "id": "c31c14bb-1e3b-4fd5-b3ba-62cd55a814eb",
+          "olusturma_zamani": "2025-09-17T07:03:31.783252+00:00",
+          "kullanici_girdisi": "T.C. Kimlik No :  19804805****   Adı / Soyadı : GÜLAY KARDAŞ \n \n Cinsiyeti :  Kadın   Doğum Tarihi :  01/01/1972 \n \nRapor Bilgileri \n Rapor Numarası (*) :  1197644   Rapor Tarihi (*) :  18/03/2025 \n Protokol No :  25918012    Düzenleme Türü :  Uzman Hekim Raporu \n Açıklama :     Kayıt Şekli  :  Elektronik İmzalı Rapor  \n Tesis Kodu (*)  :  11450014    Rapor Takip No  :  497713411  \n Tesis Ünvanı  :  MANİSA MERKEZ EFENDİ DEVLET HASTANESİ(S)  \n Kullanıcı Adı  :  VOLKAN TATLI  \nAçıklamalar Eklenme Zamanı Not \nELETRIPTAN HIDROBROMUR 18/03/2025 14:46  \n \n \nTanı Bilgileri \nTanı   Başlangıç Bitiş \n20.05 - Migren (G43) \nG43.9 MİGREN, TANIMLANMAMIŞ \n  \n  \n  \n  \n \n  18/03/2025 17/03/2026 \n \n \nDoktor Bilgileri \nDr. Diploma No Dip. Tescil No Branş Adı Soyadı \n163483 186957 Nöroloji BÜŞRA ÇİSİL ÇELENK \n \n \nRapor Etkin Madde Bilgileri \nKodu Adı Form Tedavi Şema Adet / Miktar İçerik Mik. Eklenme Zamanı  \nSGKEZ2 ELETRIPTAN HIDROBROMUR Ağızdan katı Günde 1 x 1.0 Adet   18/03/2025 14:46",
+          "asistan_cevabi": "### Özet\nBu rapor, 18/03/2025 tarihli ve 1197644 numaralı Uzman Hekim Raporu'nu içermektedir. Rapor, Manisa Merkez Efendi Devlet Hastanesi'nde kayıt altına alınmıştır. Hastanın cinsiyeti kadın olup, doğum tarihi 01/01/1972'dir. Uzman hekim tarafından migren tanısı konmuştur ve ilgili nöroloji uzmanı BÜŞRA ÇİSİL ÇELENK tarafından düzenlenmiştir. Tek bir ilaç reçetelenmiş olup, bu ilaç Eletriptan Hidrobrumur adlı ağızdan katı şekilde kullanılan ilaçtır.\n\n### Tanı Özeti\nHasta migren tanısı almıştır (ICD kodu: G43.9). Tanı, migren ile uyumlu görünmektedir.\n\n### İlaç Bazlı Değerlendirme\nReçetelenen ilaç, Eletriptan Hidrobrumur, migren tedavisinde kullanılan bir ilaçtır ve SUT'a (Sağlık Uygulama Tebliği) uygun bir ilaçtır. Dozajıyla ilgili belirtilen doz, mevzuata uygun olarak reçetelenmiştir.\n\n### Eksik Bilgi/Gerekli Belgeler\nRaporda belirtilen bilgilere göre herhangi bir eksiklik bulunmamaktadır.\n\n### Mevzuat Dayanakları\nSUT eki EK-2/A, EK-2/A-2 ve EK-2/C listelerinde yer alan işlemlerin faturalandırılmasına ilişkin hususlara, ayakta tedavi hizmetlerinde ödeme uygulamasına ve Sağlık hizmeti sunucularına müracaat ve yükümlülüklere dair bilgiler yer almaktadır.\n\n### Son Karar\nRapor incelendiğinde, migren tanısına yönelik Eletriptan Hidrobrumur isimli ilacın reçetelendiği ve dozajının uygun olduğu görülmüştür. Bu doğrultuda, raporun mevzuata uygun olduğu sonucuna varılmıştır.",
+          "geri_bildirim": "dogru",
+          "neden": null,
+          "neden_aciklama": null
+        },
+        {
+          "id": "7a102f6f-45f9-4f93-9c3d-0f0ec804c435",
+          "olusturma_zamani": "2025-09-17T13:10:05.131102+00:00",
+          "kullanici_girdisi": "ŞÜKRAN KOLDAŞ \nCİNSİYETİ: KADIN  DOĞUM TARİHİ:  :  09/05/1955 \nRAPOR BİLGİLERİ\nRAPOR NUMARASI: 04.02 RAPOR TARİHİ: 14/12/2025\nPROTOKOL NO: 89612 DÜZENLEME TÜRÜ: Uzman Hekim Raporu\nAçıklama : Kayıt Şekli  :  Elektronik İmzalı Rapor  \nTesis Kodu (*)  :  11340049  Rapor Takip No  :  518182130  \nTesis Ünvanı  :  T.C. SAĞLIK BAKANLIĞI İSTANBUL PROF. DR. CEMİL TAŞCIOĞLU ŞEHİR HASTANESİ  \nAçıklamalar  \nKRONİK STABİL ANGİNA PEKTORİSLİ HASTA SEMPTOMATİK TEDAVİSİNDE BETA BLOKER VE VERAPAMİL DİLTİAZEM TEDAVİSİNE RAĞMEN ANGİNASI DEVAM EDEN HASTA.\n\nTanı Bilgileri \nTanı   Başlangıç Bitiş \n04.02 - Koroner arter hastaligi(I20)(I21)(I25)(Z95.1)(Z95.5-Z95.9) \nI20.9 ANGİNA PECTORİS, TANIMLANMAMIŞ \n \nDoktor Bilgileri \nDr. Diploma No Dip. Tescil No Branş Adı Soyadı \n2136 72144 Kardiyoloji SÜLEYMAN SEZAİ YILDIZ \n\nRapor Etkin Madde Bilgileri \nKodu Adı Form Tedavi Şema Adet / Miktar İçerik Mik. Eklenme Zamanı  \nSGKG03 RANOLAZIN Ağızdan katı Günde 2 x 1.0 Adet",
+          "asistan_cevabi": "Değerlendirme:\n\n1) Özet:\nBu rapor, SUT/SGK mevzuatına göre tıbbi reçetelerin uygunluğunu değerlendirmektedir. Rapor, ICD kodu, doza uygunluk, tanı-tedavi uyumluluğu, mevzuata uygunluk ve eksik bilgi gibi kriterler açısından incelenmiştir.\n\n2) Tanı Özeti:\nKod: 04.02\nAçıklama: Koroner arter hastalığı (I20)(I21)(I25)(Z95.1)(Z95.5-Z95.9) I20.9 ANGİNA PECTORİS, TANIMLANMAMIŞ ile uyumlu.\n\n3) İlaç Bazlı Değerlendirme:\nSGKG03 | RANOLAZIN | Ağızdan | katı | Günde 1x. Dozaj, SUT/SGK hükümlerine göre genelde uygun olup, klinik kılavuz/SUT ile uyumludur.\n\n4) Eksik Bilgi/Gerekli Belgeler:\nRapor'da hasta kimlik bilgileri, klinik durum, komorbidite, risk skoru gibi bilgiler belirtilmemiş olabilir. Bu bilgiler, SUT/SGK'da belirtilen gerekçelendirme için önemlidir.\n\n5) Mevzuat Dayanağı:\nDeğerlendirme, SUT/SGK hükümlerine göre yapılmalıdır. SUT'un 4.1.3 maddesi ve EK-4/Ç Listesi hükümlerine göre standartlar belirlenmiştir.\n\n6) Son Karar:\nRapor, SUT/SGK mevzuatına göre genel olarak uygun olup, belirtilen kriterler dahilinde gerekçelendirme yapılmalıdır.",
+          "geri_bildirim": "dogru",
+          "neden": null,
+          "neden_aciklama": null
+        }
+      ],
+      "negative_feedback": [
+        {
+          "id": "f1de9525-4a7a-4427-84f7-af7fa22f0b4b",
+          "olusturma_zamani": "2025-09-17T05:34:48.697261+00:00",
+          "kullanici_girdisi": "T.C. Kimlik No :  25081892****   Adı / Soyadı : BURHAN YERGİN \n \n Cinsiyeti :  Erkek   Doğum Tarihi :  19/10/1973 \n \nRapor Bilgileri \n Rapor Numarası (*) :  113087   Rapor Tarihi (*) :  15/09/2025 \n Protokol No :  145426461    Düzenleme Türü :  Uzman Hekim Raporu \n Açıklama :     Kayıt Şekli  :  Elektronik İmzalı Rapor  \n Tesis Kodu (*)  :  11330005    Rapor Takip No  :  522049574  \n Tesis Ünvanı  :  MERSIN TOROS DEVLET HASTANESİ(S)  \n Kullanıcı Adı  :  MUSTAFA AKCA  \nAçıklamalar Eklenme Zamanı Not \n. 15/09/2025 15:49  \n. 15/09/2025 15:49  \n \n \nTanı Bilgileri \nTanı   Başlangıç Bitiş \n04.05 - Arteriyel Hipertansiyon(I10 -I13)(I15) \nI10 ESANSİYEL (PRİMER) HİPERTANSİYON \n  \n  \n  \n  \n \n  15/09/2025 15/09/2026 \n \n \nDoktor Bilgileri \nDr. Diploma No Dip. Tescil No Branş Adı Soyadı \n12308 143851 İç Hastalıkları (Ana Branş) FADİME ARSLAN KARAKILIÇ \n \n \nRapor Etkin Madde Bilgileri \nKodu Adı Form Tedavi Şema Adet / Miktar İçerik Mik. Eklenme Zamanı  \nSGKEQE AMLODIPIN Ağızdan katı Günde 1 x 1.0 Adet   15/09/2025 15:49",
+          "asistan_cevabi": "Belirtilen bilgilere dayanarak SUT ve SGK mevzuatına göre raporu değerlendireceğim.\n\n---\n\nÖzet:\nRapor, ele alınan hasta için \"Arteriyel Hipertansiyon\" tanısı ve \"Amlodipin\" isimli ilacı içermektedir. İlaç bazlı değerlendirmede doz/süre ve belgelendirme/izlem kriterlerinin karşılanması gerekmektedir. Ayrıca, eksik bilgiler bulunmaktadır.\n\n---\n\nTanı Özeti:\nHasta, \"Arteriyel Hipertansiyon\" tanısı almıştır (\"I10 -I13)(I15\").\n\n---\n\nİlaç Bazlı Değerlendirme:\n- **Amlodipin**:\n  - **Endikasyon Uygunluğu:** SUT ve ICD-10'a göre değerlendirme yapılamadı, eksik bilgi.\n  - **Doz/Süre:** Belirtilen doz uygun görünmektedir.\n  - **Kombinasyon/Etkileşim:** Verilerde başka ilaç bulunmamaktadır, etkileşim kontrolü yapılamadı.\n  - **Belge/İzlem:** Hasta izlem bilgileri ve kurul raporu bulunmamaktadır, eksik bilgi.\n  - **Karar:** Endikasyon uygunluğu belirlenemedi, eksik belge ve izlem.\n\n---\n\nEksik Bilgi/Gerekli Belgeler:\n1. Amlodipin'in endikasyon uygunluğunun SUT ve ICD-10'a göre değerlendirilmesi için tanı raporu ve detaylı hasta geçmişi gerekmektedir.\n2. Hasta izlem bilgileri ve kurul raporu sağlanmalıdır.\n\n---\n\nMevzuat Dayanakları:\nBelirtilen bilgilerle mevzuat dayanağı bulunamadı.\n\n---\n\nSon Karar:\nAmlodipin için endikasyon uygunluğu belirlenemedi, eksik belge ve izlem bilgileri bulunmaktadır.\n\n---\n\nBu değerlendirme, hastanın mevcut durumu ve ilaç tedavisi için gerekli bilgilerin eksikliği nedeniyle kesin bir değerlendirme yapılamadığını göstermektedir. Raporun tamamlanması ve ilave bilgilerin sağlanması durumunda tekrar değerlendirme yapılması gerekmektedir.",
+          "geri_bildirim": "yanlis",
+          "neden": "Mevzuat dayanağı eksik",
+          "neden_aciklama": "AMLODIPIN ( YANİ NORVASC ) ARTERİYEL HİPERTANSİYON TANISI İLE ÖDENİR."
+        },
+        {
+          "id": "7fe57623-b645-4998-8074-05a4e19c30ea",
+          "olusturma_zamani": "2025-09-17T07:01:48.912421+00:00",
+          "kullanici_girdisi": "T.C. Kimlik No :  18520137****   Adı / Soyadı : ZEYNEP IŞIKVEREN \n \n Cinsiyeti :  Kadın   Doğum Tarihi :  20/12/1952 \n \nRapor Bilgileri \n Rapor Numarası (*) :  109140   Rapor Tarihi (*) :  04/09/2025 \n Protokol No :  144537907    Düzenleme Türü :  Uzman Hekim Raporu \n Açıklama :     Kayıt Şekli  :  Elektronik İmzalı Rapor  \n Tesis Kodu (*)  :  11330005    Rapor Takip No  :  520754406  \n Tesis Ünvanı  :  MERSIN TOROS DEVLET HASTANESİ(S)  \n Kullanıcı Adı  :  HASAN BAYSAL  \nAçıklamalar Eklenme Zamanı Not \n. 04/09/2025 15:22  \nmetformin ve sülfonilürelerin maksımum tolere edilebilir dozlarında yeterli glisemik kontrol sağlanamamıştır 04/09/2025 15:22  \n. 04/09/2025 15:22  \n. 04/09/2025 15:22  \n. 04/09/2025 15:22  \n. 04/09/2025 15:22  \n \n \nTanı Bilgileri \nTanı   Başlangıç Bitiş \n04.05 - Arteriyel Hipertansiyon(I10 -I13)(I15) \nI10 ESANSİYEL (PRİMER) HİPERTANSİYON \n  \n  \n  \n  \n \n  04/09/2025 04/09/2026 \n07.02.1 - Diabetes Mellitus(E10-E14) \nE11.8 İNSÜLİN BAĞIMLI OLMAYAN DİYABETES MELLİTÜS, TANIMLANMAMIŞ KOMPLİKASYONLARLA BİRLİKTE \n  \n  \n  \n  \n \n  04/09/2025 04/09/2026 \n07.02.1.4 - Sadace oral antidiyabetik kullanan Diabetus Mellitusda strip kullanim (E11-E13-E14) \nE11.8 İNSÜLİN BAĞIMLI OLMAYAN DİYABETES MELLİTÜS, TANIMLANMAMIŞ KOMPLİKASYONLARLA BİRLİKTE \n  \n  \n  \n  \n \n  04/09/2025 04/09/2026 \n \n \nDoktor Bilgileri \nDr. Diploma No Dip. Tescil No Branş Adı Soyadı \n751 182777 İç Hastalıkları (Ana Branş) ELİF MERT \n \n \nRapor Etkin Madde Bilgileri \nKodu Adı Form Tedavi Şema Adet / Miktar İçerik Mik. Eklenme Zamanı  \nSGKF5Z INDAPAMID Ağızdan katı Günde 1 x 1.0 Adet   04/09/2025 15:22  \nSGKG37 DAPAGLIFLOZIN PROPANDIOL MONOHIDRAT(SODYUM-GLUKOZ KO-TRANSPORTER 2 (SGLT2) INHIBITORLERI) Ağızdan katı Günde 1 x 1.0 Adet   04/09/2025 15:22  \nSGKF3W GLIKLAZID Ağızdan katı Günde 1 x 1.0 Adet   04/09/2025 15:22  \nSGKERW ASETILSALISILIK ASIT Ağızdan katı Günde 1 x 1.0 Adet   04/09/2025 15:22  \nSGKFOA SEKER OLCUM CIHAZ VE CUBUKLARI  Günde 2 x 1.0 Adet   04/09/2025 15:22  \n \n \nRapor İlave Değer Bilgileri \nTürü Değeri Açıklama Eklenme Zamanı \nKilo 75 Kilogram 04/09/2025 15:22 \nHemoglobin A1c 7.8 % 04/09/2025 15:22 \nAçlık Kan Şekeri 180 Mg/Dl 04/09/2025 15:22",
+          "asistan_cevabi": "## Özet\nHastanın arteriyel hipertansiyon tanısı bulunmakta ve reçetede Indapamid, Dapagliflozin Propandiol Monohidrat, Gliklazid, Asetilsalisilik Asit ve şeker ölçüm cihazı bulunmaktadır. Rapor, hastanın Sağlık Güvencesi Kurumu (SGK) mevzuatına göre değerlendirilmektedir.\n\n## Tanı Özeti\nHasta, arteriyel hipertansiyon tanısı almıştır. Tanı, ICD-10 kodu I10-I13 ve I15 ile uyumludur.\n\n## İlaç Bazlı Değerlendirme\nReçetedeki ilaçlar SGK mevzuatına uygun değildir. SGK'nın yayımladığı listelerde bulunmayan ilaçlar için ödemelerin yapılmayacağı belirtilmektedir. Ayrıca, reçetede yer alan ilaçların kullanımına ilişkin özel hükümler bulunmaktadır. Örneğin, bazı IVF tedavisi ilaçları için belirli koşulların sağlanması gerekmekte ve katılım payı muafiyeti bulunmamaktadır.\n\n## Eksik Bilgi/Gerekli Belgeler\nRaporun incelenmesi için fatura aslı, reçete aslı veya ıslak imzalı epikriz notu, tıbbi cihaz/sarf malzemesinin kullanıldığına dair sağlık raporu aslı ve fatura arkasında hastanın teslim aldığına dair belgelerin ibrazı gerekmektedir.\n\n## Mevzuat Dayanakları\nSUT mevzuatı, reçetede yer alan ilaçların ödeme koşullarını belirlemektedir. Ayrıca, ilaçların kullanımına ilişkin özel hükümler ve koşullar SUT'ta detaylı olarak açıklanmıştır.\n\n## Son Karar\nReçetede yer alan ilaçların SGK mevzuatına uygun olmadığı ve ödemeleri için gerekli belgelerin eksik olduğu tespit edilmiştir. Bu nedenle, reçetenin SGK mevzuatına uygun hale getirilmesi ve eksik belgelerin tamamlanması gerekmektedir.",
+          "geri_bildirim": "yanlis",
+          "neden": null,
+          "neden_aciklama": "RAPOR DOĞRUYDU. CORASPIN İÇİN ARTERİYEL HİPERTANSİYON TANISI YETERLİ. DAPAGLIFOZIN İÇİN '' metformin ve/veya sülfonilürelerin maksimum tolere edilebilir dozlarında yeterli glisemik kontrol sağlanamamış hastalar''  İBARESİ YETERLİ"
+        },
+        {
+          "id": "54c354f7-0a74-4e82-9794-842793b69dd7",
+          "olusturma_zamani": "2025-09-17T13:29:04.682284+00:00",
+          "kullanici_girdisi": "ŞÜKRAN KOLDAŞ \nCİNSİYETİ: KADIN  DOĞUM TARİHİ:  :  09/05/1955 \nRAPOR BİLGİLERİ\nRAPOR NUMARASI: 04.02 RAPOR TARİHİ: 14/12/2025\nPROTOKOL NO: 89612 DÜZENLEME TÜRÜ: Uzman Hekim Raporu\nAçıklama : Kayıt Şekli  :  Elektronik İmzalı Rapor  \nTesis Kodu (*)  :  11340049  Rapor Takip No  :  518182130  \nTesis Ünvanı  :  T.C. SAĞLIK BAKANLIĞI İSTANBUL PROF. DR. CEMİL TAŞCIOĞLU ŞEHİR HASTANESİ  \nAçıklamalar  \n\n\n\nTanı Bilgileri \nTanı   Başlangıç Bitiş \n04.02 - Koroner arter hastaligi(I20)(I21)(I25)(Z95.1)(Z95.5-Z95.9) \nI20.9 ANGİNA PECTORİS, TANIMLANMAMIŞ \n \nDoktor Bilgileri \nDr. Diploma No Dip. Tescil No Branş Adı Soyadı \n2136 72144 Kardiyoloji SÜLEYMAN SEZAİ YILDIZ \n\nRapor Etkin Madde Bilgileri \nKodu Adı Form Tedavi Şema Adet / Miktar İçerik Mik. Eklenme Zamanı  \nSGKG03 RANOLAZIN Ağızdan katı Günde 2 x 1.0 Adet",
+          "asistan_cevabi": "Değerlendirme:\n\n1) Özet:\nBu rapor, sağlık hizmeti sunucusu tarafından düzenlenmiş tıbbi reçete ile hastanın tedavi sürecini ve kullanılan ilaçları belgelemektedir. SUT/SGK mevzuatına göre uygunluk açısından değerlendirilmiştir.\n\n2) Tanı Özeti:\nKod: 04.02\nAçıklama: Koroner arter hastalığı (I20)(I21)(I25)(Z95.1)(Z95.5-Z95.9) I20.9 ANJİNA PECTORİS, TANIMLANMAMIŞ ile uyumlu.\n\n3) İlaç Bazlı Değerlendirme:\nSGKG03 | RANOLAZİN | Ağızdan | katı | Günde 1x, SUT/SGK hükümlerine göre genelde 600 mg/gün standarttır. Klinik kılavuz/SUT ile uyumludur.\n\n4) Eksik Bilgi/Gerekli Belgeler:\nRapor içinde hastanın böbrek fonksiyonu, komorbidite, risk skoru gibi bilgiler belirtilmemiş olabilir. Bu bilgiler önemli olabilir.\n\n5) Mevzuat Dayanağı:\nDeğerlendirme, SUT/SGK hükümlerine göre yapılmaktadır. SUT'un 4.2.15 maddesi ve EK-4/F Listesi hükümlerine göre gerekçelendirme yapılmalıdır.\n\n6) Son Karar:\nRapor, SUT/SGK mevzuatına uygun olarak düzenlenmiştir. Herhangi bir uyumsuzluk tespit edilmemiştir.",
+          "geri_bildirim": "yanlis",
+          "neden": null,
+          "neden_aciklama": "RAPOR AÇIKLAMASI YAZMIYOR BU ŞEKİLDE UYGUN OLAMAZ"
+        }
+      ],
+      "error_patterns": {
+        "Mevzuat dayanağı eksik": 1,
+        "Yanlış tanı-eşleşme": 2,
+        "Doz/şema hatası": 1,
+        "Dil/format sorunları": 1,
+        "Eksik bilgi gözardı": 1
+      },
+      "success_patterns": {
+        "mevzuat_reference": 2,
+        "icd_check": 2,
+        "dosage_check": 2
+      },
+      "common_issues": [
+        [
+          "Yanlış tanı-eşleşme",
+          2
+        ],
+        [
+          "Mevzuat dayanağı eksik",
+          1
+        ],
+        [
+          "Doz/şema hatası",
+          1
+        ],
+        [
+          "Dil/format sorunları",
+          1
+        ],
+        [
+          "Eksik bilgi gözardı",
+          1
+        ]
+      ],
+      "success_rate": 40.0,
+      "trend_analysis": {},
+      "specific_feedback": [
+        {
+          "reason": "Mevzuat dayanağı eksik",
+          "comment": "AMLODIPIN ( YANİ NORVASC ) ARTERİYEL HİPERTANSİYON TANISI İLE ÖDENİR.",
+          "user_input": "T.C. Kimlik No :  25081892****   Adı / Soyadı : BURHAN YERGİN \n \n Cinsiyeti :  Erkek   Doğum Tarihi :  19/10/1973 \n \nRapor Bilgileri \n Rapor Numarası (*) :  113087   Rapor Tarihi (*) :  15/09/2025 \n P",
+          "assistant_response": "Belirtilen bilgilere dayanarak SUT ve SGK mevzuatına göre raporu değerlendireceğim.\n\n---\n\nÖzet:\nRapor, ele alınan hasta için \"Arteriyel Hipertansiyon\" tanısı ve \"Amlodipin\" isimli ilacı içermektedir. "
+        },
+        {
+          "reason": null,
+          "comment": "RAPOR DOĞRUYDU. CORASPIN İÇİN ARTERİYEL HİPERTANSİYON TANISI YETERLİ. DAPAGLIFOZIN İÇİN '' metformin ve/veya sülfonilürelerin maksimum tolere edilebilir dozlarında yeterli glisemik kontrol sağlanamamış hastalar''  İBARESİ YETERLİ",
+          "user_input": "T.C. Kimlik No :  18520137****   Adı / Soyadı : ZEYNEP IŞIKVEREN \n \n Cinsiyeti :  Kadın   Doğum Tarihi :  20/12/1952 \n \nRapor Bilgileri \n Rapor Numarası (*) :  109140   Rapor Tarihi (*) :  04/09/2025 ",
+          "assistant_response": "## Özet\nHastanın arteriyel hipertansiyon tanısı bulunmakta ve reçetede Indapamid, Dapagliflozin Propandiol Monohidrat, Gliklazid, Asetilsalisilik Asit ve şeker ölçüm cihazı bulunmaktadır. Rapor, hasta"
+        },
+        {
+          "reason": null,
+          "comment": "RAPOR AÇIKLAMASI YAZMIYOR BU ŞEKİLDE UYGUN OLAMAZ",
+          "user_input": "ŞÜKRAN KOLDAŞ \nCİNSİYETİ: KADIN  DOĞUM TARİHİ:  :  09/05/1955 \nRAPOR BİLGİLERİ\nRAPOR NUMARASI: 04.02 RAPOR TARİHİ: 14/12/2025\nPROTOKOL NO: 89612 DÜZENLEME TÜRÜ: Uzman Hekim Raporu\nAçıklama : Kayıt Şek",
+          "assistant_response": "Değerlendirme:\n\n1) Özet:\nBu rapor, sağlık hizmeti sunucusu tarafından düzenlenmiş tıbbi reçete ile hastanın tedavi sürecini ve kullanılan ilaçları belgelemektedir. SUT/SGK mevzuatına göre uygunluk açı"
+        }
+      ]
+    },
+    "instructions": "Sen Türk sağlık mevzuatına göre tıbbi raporları değerlendiren bir uzmansın. Gelen raporları aşağıdaki kriterlere göre kapsamlı bir şekilde değerlendir:\n\n1. **Tanı Kodlarının Doğruluğu**: Tanı kodlarının doğru, güncel ve uygun olduğundan emin ol. Yanlış tanı-eşleşmelerine karşı dikkatli ol. Her zaman tanı ile ilgili ICD kodunu kontrol et ve uygunluğunu değerlendir.\n\n2. **İlaç Dozajlarının Uygunluğu**: İlaçların dozajlarını ve tedavi şemalarını mutlaka kontrol et. Doz/şema hatalarını önlemek için güncel tedavi kılavuzlarına başvur ve uygunluklarını değerlendir.\n\n3. **Tanı-Tedavi Uyumluluğu**: Tanı ile önerilen tedavi yöntemlerinin uyumlu olup olmadığını değerlendir. Tanı ile tedavi arasında bir tutarsızlık varsa, bunu mutlaka belirt ve gerekçelendir.\n\n4. **Mevzuata Uygunluk**: Raporların SUT ve SGK mevzuatına uygunluğunu her zaman kontrol et. Mevzuat dayanağı eksik olan durumları tespit et ve bunları açık bir şekilde ifade et.\n\n5. **Eksik Bilgilerin Tespiti**: Raporlarda eksik bilgi olup olmadığını mutlaka kontrol et. Eksik bilgileri göz ardı etme; her zaman eksiklikleri belirt ve tamamlanması gereken bilgileri vurgula.\n\n6. **Dil ve Format Kontrolü**: Raporların açıklama kısmını doldururken dil ve format sorunlarına dikkat et. Açık ve anlaşılır bir dil kullanarak, raporun güçlü ve zayıf yönlerini belirt.\n\n7. **Değerlendirme Sonucu Sunumu**: Değerlendirme sonucunu detaylı ve yapıcı bir şekilde sun. Her zaman hasta güvenliğini ön planda tutarak, SUT/SGK mevzuatına uygunluk açısından raporu değerlendir.\n\n8. **Geri Bildirim ve İyileştirme**: Değerlendirme sürecinde aldığın geri bildirimleri dikkate alarak, rapor kalitesini artırmak için sürekli olarak kendini geliştir. Yaygın hataları analiz et ve benzer durumların tekrar yaşanmaması için önlemler al.\n\nHer aşamada, dikkatli ve titiz bir yaklaşım sergileyerek, raporların kalitesini artırmayı hedefle.",
+    "success_rate": 40.0,
+    "total_feedback": 5
   }
 ]
