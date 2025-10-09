@@ -148,24 +148,29 @@ DİKKAT: Mevcut başarı oranı %{success_rate:.1f}. Daha dikkatli ve kapsamlı 
                     if reason:
                         error_patterns[reason] = error_patterns.get(reason, 0) + 1
                 
-                # En yaygın hatalara göre özel talimatlar
+                # En yaygın hatalara göre özel talimatlar - gelişmiş kategoriler
                 if error_patterns:
                     improvements.append("\nYAYGIN HATALAR VE ÇÖZÜMLERİ:")
                     
                     for error, count in sorted(error_patterns.items(), key=lambda x: x[1], reverse=True)[:3]:
-                        if error == 'Yanlış tanı-eşleşme':
+                        if error == 'İlaç-Endikasyon Uyumsuzluğu':
                             improvements.append(f"""
-• TANI KODLARI ({count} kez hata): ICD kodları ile tanı açıklamaları arasındaki uyumu mutlaka kontrol et.""")
-                        elif error == 'Doz/şema hatası':
+• İLAÇ-ENDİKASYON UYUMSUZLUĞU ({count} kez hata): İlaç-endikasyon eşleştirmelerini SUT kılavuzuna göre kontrol et.
+  Özellikle Amlodipin-Arteriyel Hipertansiyon gibi spesifik eşleştirmeleri doğrula.""")
+                        elif error == 'Mevzuat Dayanağı Eksik':
                             improvements.append(f"""
-• DOZAJ HATALARI ({count} kez hata): İlaç dozajlarını SUT/SGK mevzuatına göre kontrol et.""")
-                        elif error == 'Mevzuat dayanağı eksik':
+• MEVZUAT DAYANAĞI EKSİKLİĞİ ({count} kez hata): Her değerlendirmende SUT/SGK mevzuatına dayalı gerekçelendirme sağla.
+  Ödeme kapsamı ve mevzuat referanslarını açık belirt.""")
+                        elif error == 'Tanı Kodu Hatası':
                             improvements.append(f"""
-• MEVZUAT EKSİKLİĞİ ({count} kez hata): Her değerlendirmende SUT/SGK mevzuatına dayalı gerekçelendirme sağla.""")
-                        elif error == 'Eksik bilgi gözardı':
+• TANI KODU HATASI ({count} kez hata): ICD kodları ile tanı açıklamaları arasındaki uyumu mutlaka kontrol et.""")
+                        elif error == 'Dozaj/Şema Hatası':
+                            improvements.append(f"""
+• DOZAJ/ŞEMA HATASI ({count} kez hata): İlaç dozajlarını SUT/SGK mevzuatına göre kontrol et.""")
+                        elif error == 'Eksik Bilgi':
                             improvements.append(f"""
 • EKSİK BİLGİ ({count} kez hata): Raporda eksik olan kritik bilgileri mutlaka tespit et ve belirt.""")
-                        elif error == 'Dil/format sorunları':
+                        elif error == 'Format Sorunları':
                             improvements.append(f"""
 • FORMAT SORUNLARI ({count} kez hata): Değerlendirmeni net, anlaşılır ve profesyonel bir dille yaz.""")
         

@@ -64,32 +64,53 @@ class DynamicInstructionGenerator:
                 
                 if reason:
                     analysis['error_patterns'][reason] = analysis['error_patterns'].get(reason, 0) + 1
-                # Free-text neden_aciklama içeriğinden kategori çıkarımı (basit anahtar kelime haritalama)
+                # Free-text neden_aciklama içeriğinden detaylı analiz ve kategori çıkarımı
                 if comment:
                     lc = str(comment).lower()
-                    keyword_to_bucket = [
-                        (['icd', 'tanı', 'tani', 'kod'], 'Yanlış tanı-eşleşme'),
-                        (['doz', 'dozaj', 'şema', 'tedavi şema', 'titrasyon'], 'Doz/şema hatası'),
-                        (['sut', 'mevzuat', 'sgk', 'dayanak', 'kılavuz', 'kilavuz'], 'Mevzuat dayanağı eksik'),
-                        (['eksik', 'bilgi eksik', 'belirsiz', 'tamamlanmalı', 'tamamlanmali'], 'Eksik bilgi gözardı'),
-                        (['dil', 'format', 'biçim', 'bicim', 'anlaşılır', 'anlasilir'], 'Dil/format sorunları'),
+                    
+                    # Detaylı analiz için spesifik pattern'lar
+                    detailed_patterns = [
+                        # İlaç-endikasyon eşleşmeleri
+                        (['amlodipin', 'norvasc', 'arteriyel hipertansiyon'], 'İlaç-Endikasyon Uyumsuzluğu'),
+                        (['metformin', 'diabetes', 'şeker'], 'İlaç-Endikasyon Uyumsuzluğu'),
+                        (['statin', 'kolesterol', 'lipid'], 'İlaç-Endikasyon Uyumsuzluğu'),
+                        
+                        # Mevzuat referansları
+                        (['sut', 'sgk', 'mevzuat', 'dayanak', 'kılavuz', 'kilavuz'], 'Mevzuat Dayanağı Eksik'),
+                        (['ödenir', 'ödeme', 'kapsam', 'kapsamında'], 'Mevzuat Dayanağı Eksik'),
+                        
+                        # Tanı kodları
+                        (['icd', 'tanı', 'tani', 'kod', 'b18.1', 'i10'], 'Tanı Kodu Hatası'),
+                        
+                        # Dozaj sorunları
+                        (['doz', 'dozaj', 'şema', 'tedavi şema', 'titrasyon', 'mg', 'günde'], 'Dozaj/Şema Hatası'),
+                        
+                        # Eksik bilgiler
+                        (['eksik', 'bilgi eksik', 'belirsiz', 'tamamlanmalı', 'tamamlanmali'], 'Eksik Bilgi'),
+                        
+                        # Format sorunları
+                        (['dil', 'format', 'biçim', 'bicim', 'anlaşılır', 'anlasilir'], 'Format Sorunları'),
                     ]
+                    
                     matched = False
-                    for keywords, bucket in keyword_to_bucket:
+                    for keywords, bucket in detailed_patterns:
                         if any(k in lc for k in keywords):
                             analysis['error_patterns'][bucket] = analysis['error_patterns'].get(bucket, 0) + 1
                             matched = True
+                    
                     # Eşleşme yoksa genel eksik bilgiye at
                     if not matched:
-                        analysis['error_patterns']['Eksik bilgi gözardı'] = analysis['error_patterns'].get('Eksik bilgi gözardı', 0) + 1
+                        analysis['error_patterns']['Genel Bilgi Eksikliği'] = analysis['error_patterns'].get('Genel Bilgi Eksikliği', 0) + 1
                 
-                # Spesifik feedback topla
-                analysis['specific_feedback'].append({
+                # Spesifik feedback topla - detaylı analiz ile
+                specific_entry = {
                     'reason': reason,
                     'comment': comment,
                     'user_input': feedback.get('kullanici_girdisi', '')[:200],  # İlk 200 karakter
-                    'assistant_response': feedback.get('asistan_cevabi', '')[:200]
-                })
+                    'assistant_response': feedback.get('asistan_cevabi', '')[:200],
+                    'detailed_analysis': self._analyze_specific_feedback(comment, feedback.get('kullanici_girdisi', ''), feedback.get('asistan_cevabi', ''))
+                }
+                analysis['specific_feedback'].append(specific_entry)
         
         # Pozitif feedback analizi
         for feedback in analysis['positive_feedback']:
@@ -107,6 +128,44 @@ class DynamicInstructionGenerator:
         
         # En yaygın sorunları belirle
         analysis['common_issues'] = sorted(analysis['error_patterns'].items(), key=lambda x: x[1], reverse=True)
+        
+        return analysis
+    
+    def _analyze_specific_feedback(self, comment: str, user_input: str, assistant_response: str) -> Dict[str, Any]:
+        """Spesifik feedback'i detaylı analiz eder"""
+        analysis = {
+            'key_issues': [],
+            'suggested_improvements': [],
+            'critical_points': [],
+            'learning_opportunities': []
+        }
+        
+        if not comment:
+            return analysis
+        
+        comment_lower = comment.lower()
+        
+        # İlaç-endikasyon analizi
+        if any(drug in comment_lower for drug in ['amlodipin', 'norvasc', 'metformin', 'statin']):
+            analysis['key_issues'].append('İlaç-endikasyon uyumsuzluğu tespit edildi')
+            analysis['suggested_improvements'].append('İlaç-endikasyon eşleştirmelerini SUT kılavuzuna göre kontrol et')
+            analysis['critical_points'].append('Mevzuat dayanağı eksikliği kritik hata')
+        
+        # Mevzuat analizi
+        if any(term in comment_lower for term in ['ödenir', 'ödeme', 'kapsam', 'sut', 'sgk']):
+            analysis['key_issues'].append('Mevzuat dayanağı eksikliği')
+            analysis['suggested_improvements'].append('SUT/SGK mevzuatına dayalı gerekçelendirme sağla')
+            analysis['learning_opportunities'].append('Mevzuat referanslarını açık belirt')
+        
+        # Tanı kodu analizi
+        if any(term in comment_lower for term in ['icd', 'tanı', 'kod', 'b18.1', 'i10']):
+            analysis['key_issues'].append('Tanı kodu uyumsuzluğu')
+            analysis['suggested_improvements'].append('ICD kodları ile tanı açıklamaları arasındaki uyumu kontrol et')
+        
+        # Dozaj analizi
+        if any(term in comment_lower for term in ['doz', 'dozaj', 'mg', 'günde']):
+            analysis['key_issues'].append('Dozaj/şema sorunu')
+            analysis['suggested_improvements'].append('İlaç dozajlarını SUT kılavuzuna göre kontrol et')
         
         return analysis
     
@@ -194,17 +253,36 @@ DİKKAT: Mevcut başarı oranı %{success_rate:.1f}. Daha dikkatli ve kapsamlı 
             if success_patterns.get('dosage_check', 0) > 0:
                 improvements.append("• Dozaj kontrollerini artır")
         
-        # 4. Spesifik feedback'lere göre özel talimatlar
+        # 4. Spesifik feedback'lere göre detaylı talimatlar
         specific_feedback = analysis.get('specific_feedback', [])
         if specific_feedback:
             improvements.append("\nSPESİFİK İYİLEŞTİRME ÖNERİLERİ:")
             
-            # Son 3 negatif feedback'i analiz et
+            # Son 3 negatif feedback'i detaylı analiz et
             recent_negative = [f for f in specific_feedback if f['reason']][-3:]
             
             for feedback in recent_negative:
                 if feedback['comment']:
-                    improvements.append(f"• {feedback['comment'][:100]}...")
+                    # Detaylı analiz sonuçlarını kullan
+                    detailed_analysis = feedback.get('detailed_analysis', {})
+                    
+                    # Kritik noktaları vurgula
+                    if detailed_analysis.get('critical_points'):
+                        for point in detailed_analysis['critical_points']:
+                            improvements.append(f"• KRİTİK: {point}")
+                    
+                    # Öğrenme fırsatlarını belirt
+                    if detailed_analysis.get('learning_opportunities'):
+                        for opportunity in detailed_analysis['learning_opportunities']:
+                            improvements.append(f"• ÖĞRENME: {opportunity}")
+                    
+                    # Spesifik önerileri ekle
+                    if detailed_analysis.get('suggested_improvements'):
+                        for suggestion in detailed_analysis['suggested_improvements']:
+                            improvements.append(f"• ÖNERİ: {suggestion}")
+                    
+                    # Orijinal yorumu da ekle (kısaltılmış)
+                    improvements.append(f"• ÖRNEK HATA: {feedback['comment'][:80]}...")
         
         # 5. Trend analizi
         total_feedback = analysis.get('total_feedback', 0)
@@ -259,17 +337,28 @@ DİKKAT: Mevcut başarı oranı %{success_rate:.1f}. Daha dikkatli ve kapsamlı 
             for issue, count in common_issues[:5]:
                 summary_lines.append(f"- {issue}: {count} kez")
 
-        # Spesifik örnekler (maks 3 adet)
+        # Spesifik örnekler (maks 3 adet) - detaylı analiz ile
         examples_lines = ["Negatif feedback örnekleri (maskelenmiş):"]
         for ex in specific[:3]:
             ex_reason = ex.get('reason') or "(belirtilmemiş)"
             ex_comment = self._mask_text(ex.get('comment') or "")
             ex_user = self._mask_text(ex.get('user_input') or "", max_len=300)
             ex_assistant = self._mask_text(ex.get('assistant_response') or "", max_len=300)
+            ex_analysis = ex.get('detailed_analysis', {})
+            
             examples_lines.append("---")
             examples_lines.append(f"Neden: {ex_reason}")
             if ex_comment:
                 examples_lines.append(f"Yorum: {ex_comment}")
+            
+            # Detaylı analiz sonuçlarını ekle
+            if ex_analysis.get('key_issues'):
+                examples_lines.append(f"Tespit edilen sorunlar: {', '.join(ex_analysis['key_issues'])}")
+            if ex_analysis.get('critical_points'):
+                examples_lines.append(f"Kritik noktalar: {', '.join(ex_analysis['critical_points'])}")
+            if ex_analysis.get('suggested_improvements'):
+                examples_lines.append(f"Önerilen iyileştirmeler: {', '.join(ex_analysis['suggested_improvements'])}")
+            
             examples_lines.append(f"Kullanıcı girdisi: {ex_user}")
             examples_lines.append(f"Asistan cevabı: {ex_assistant}")
 
@@ -277,9 +366,11 @@ DİKKAT: Mevcut başarı oranı %{success_rate:.1f}. Daha dikkatli ve kapsamlı 
 
         system_msg = (
             "Rolün: 'Instruction Optimizer'. Görev: Feedback analizine dayanarak bir tıbbi rapor değerlendirme"
-            " asistanının system instructions metnini GELİŞTİRMEK. Yapı konusunda SERBESSİN; mevcut kalıbı"
+            " asistanının system instructions metnini GELİŞTİRMEK. Özellikle 'neden_aciklama' alanındaki detaylı"
+            " hata açıklamalarını analiz ederek spesifik iyileştirmeler öner. Yapı konusunda SERBESSİN; mevcut kalıbı"
             " yeniden düzenleyebilir, yeni bölümler tanımlayabilir, maddeleri birleştirebilir/çıkartabilirsin."
             " Çıktı SADECE TÜRKÇE olmalı ve sadece yeni system instructions metni olmalı."
+            " ÖNEMLİ: Spesifik hata örneklerini ve kritik noktaları mutlaka dikkate al."
         )
 
         base_instructions = previous_instructions.strip() if previous_instructions else (
@@ -295,10 +386,12 @@ DİKKAT: Mevcut başarı oranı %{success_rate:.1f}. Daha dikkatli ve kapsamlı 
 
         user_msg = (
             "Aşağıda ÖNCEKİ system instructions ve SON DÖNEM FEEDBACK analiz özeti var. "
-            "Amaç: Öncekini EVİRİP GELİŞTİREREK daha etkili bir metin üretmek. Yapı konusunda esneksin;"
-            " madde sayısını/bölümleri değiştirebilirsin. Her sürüm bir öncekine göre İLERLEME içermeli.\n\n"
+            "Amaç: Öncekini EVİRİP GELİŞTİREREK daha etkili bir metin üretmek. Özellikle 'neden_aciklama' "
+            "alanındaki detaylı hata açıklamalarını analiz ederek spesifik iyileştirmeler öner. "
+            "Yapı konusunda esneksin; madde sayısını/bölümleri değiştirebilirsin. "
+            "Her sürüm bir öncekine göre İLERLEME içermeli.\n\n"
             f"[Önceki yönerge]\n{base_instructions}\n\n[Analiz]\n{user_payload}\n\n"
-            "Yalnızca yeni system instructions metnini döndür."
+            "Yalnızca yeni system instructions metnini döndür. Spesifik hata örneklerini mutlaka dikkate al."
         )
 
         return [
