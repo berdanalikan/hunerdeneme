@@ -1,5 +1,5 @@
-{% load static %}
 <!doctype html>
+{% load static %}
 <html lang="tr">
   <head>
     <meta charset="utf-8" />
@@ -11,10 +11,25 @@
     <link rel="stylesheet" href="{% static 'styles.css' %}" />
   </head>
   <body>
+    <header class="app-header">
+      <div class="header-left">
+        <button class="sidebar-toggle" id="toggleMenu" aria-label="Menüyü aç/kapat">☰</button>
+        <div class="brand">
+          <img class="brand-logo" src="{% static 'logo.svg' %}" alt="Hüner AI" onerror="this.style.display='none'" />
+          <div>
+            <h1 class="brand-title">Hüner AI</h1>
+            <p class="brand-subtitle">Tıbbi Rapor Değerlendirme</p>
+          </div>
+        </div>
+      </div>
+      <div class="header-actions">
+        <a class="action-btn" href="https://github.com/" target="_blank" rel="noopener noreferrer" aria-label="GitHub">GitHub</a>
+      </div>
+    </header>
     <div class="content" id="layout">
       <aside class="sidebar" id="sidebar">
         <div class="sidebar-inner">
-          <button class="new-chat" id="toggleMenu">☰ Menü</button>
+          <button class="new-chat" id="toggleMenuAlt" aria-label="Menüyü aç/kapat">☰ Menü</button>
           <div id="menuSections">
             <div class="menu-section">
               <h4 data-target="sec-report">Rapor Bilgileri</h4>
@@ -43,23 +58,24 @@
           </div>
         </div>
       </aside>
-      <main class="chat" style="max-width: 1100px;">
+      <main class="chat">
       <div class="layout-two-cols">
         <div class="col">
           <div class="message scroll-panel">
-          <div class="bubble" style="width:100%;">
+          <div class="bubble full">
             <form id="reportForm" action="/evaluate/" method="post" onsubmit="return false;">
-              <textarea id="reportInput" name="report_text" placeholder="Rapor/Reçete metnini buraya yapıştırın" rows="18" aria-label="Rapor metni" style="width:100%;"></textarea>
-              <div style="display:flex; gap:8px; align-items:center; margin-top:8px;">
-                <button class="pill-btn" id="submitBtn" type="submit">Gönder</button>
-                <span id="loading" class="muted" style="display:none; color: var(--muted);">Değerlendiriliyor...</span>
+              <label for="reportInput" class="sr-only">Rapor metni</label>
+              <textarea id="reportInput" class="input-textarea" name="report_text" placeholder="Rapor/Reçete metnini buraya yapıştırın" rows="18" aria-label="Rapor metni"></textarea>
+              <div class="form-actions">
+                <button class="pill-btn primary" id="submitBtn" type="submit">Gönder</button>
+                <span id="loading" class="muted hidden">Değerlendiriliyor...</span>
               </div>
             </form>
           </div>
           </div>
-          <div id="resultBlock" class="message scroll-panel" style="display:none;">
-          <div class="bubble" style="width:100%;">
-            <h3 style="margin:0 0 10px 0;">Yapılandırılmış Rapor</h3>
+          <div id="resultBlock" class="message scroll-panel hidden">
+          <div class="bubble full">
+            <h3 class="h3-tight">Yapılandırılmış Rapor</h3>
             <details class="accordion" open>
               <summary><span class="chev">▶</span> Rapor Bilgileri</summary>
               <div class="accordion-body">
@@ -100,14 +116,14 @@
           </div>
         </div>
         <div class="col">
-          <div id="answerBlock" class="message scroll-panel" style="display:none;">
-            <div class="bubble answer" style="width:100%;">
-              <h3 style="margin:0 0 8px 0;">Değerlendirme Sonucu</h3>
-              <div id="evaluationText" style="white-space:pre-wrap;"></div>
-              <hr style="border-color: var(--border); margin:12px 0;" />
+          <div id="answerBlock" class="message scroll-panel hidden">
+            <div class="bubble answer full">
+              <h3 class="h3-tight">Değerlendirme Sonucu</h3>
+              <div id="evaluationText" class="pre-wrap"></div>
+              <hr class="divider" />
               <div id="feedbackUI">
-                <p style="margin:0 0 6px 0; color: var(--muted);">Bu yanıt doğru mu?</p>
-                <div style="display:flex; gap:8px; margin-bottom:8px;">
+                <p class="mb-8 muted">Bu yanıt doğru mu?</p>
+                <div class="form-actions mb-8">
                   <button class="pill-btn" id="fbCorrect">Evet, doğru</button>
                   <button class="pill-btn" id="fbIncorrect">Hayır, yanlış</button>
                 </div>
@@ -116,7 +132,7 @@
                     <header>Yanıt neden yanlış?</header>
                     <div>
                       <div class="chips" id="fbChips"></div>
-                      <textarea id="fbComment" rows="4" placeholder="Kısa açıklama (isteğe bağlı)" style="width:100%; margin-top:10px;"></textarea>
+                      <textarea id="fbComment" rows="4" placeholder="Kısa açıklama (isteğe bağlı)" class="input-textarea mt-10"></textarea>
                     </div>
                     <footer>
                       <button class="pill-btn" id="fbCancel">Vazgeç</button>
@@ -124,84 +140,12 @@
                     </footer>
                   </div>
                 </div>
-                <span id="fbStatus" class="muted" style="display:none; color: var(--muted);"></span>
+                <span id="fbStatus" class="muted hidden"></span>
               </div>
             </div>
           </div>
         </div>
       </div>
-
-        <div id="resultBlock" class="message" style="display:none;">
-          <div class="bubble" style="width:100%;">
-            <h3 style="margin:0 0 10px 0;">Yapılandırılmış Rapor</h3>
-            <details class="accordion" open>
-              <summary>Rapor Bilgileri</summary>
-              <div class="accordion-body">
-                <div id="acc-report" class="kv"></div>
-              </div>
-            </details>
-            <details class="accordion">
-              <summary>Hasta</summary>
-              <div class="accordion-body">
-                <div id="acc-patient" class="kv"></div>
-              </div>
-            </details>
-            <details class="accordion">
-              <summary>Doktorlar</summary>
-              <div class="accordion-body">
-                <div id="acc-doctors"></div>
-              </div>
-            </details>
-            <details class="accordion">
-              <summary>Tanılar</summary>
-              <div class="accordion-body">
-                <div id="acc-dx"></div>
-              </div>
-            </details>
-            <details class="accordion">
-              <summary>İlaçlar</summary>
-              <div class="accordion-body">
-                <div id="acc-meds"></div>
-              </div>
-            </details>
-            <details class="accordion">
-              <summary>İlave Değerler</summary>
-              <div class="accordion-body">
-                <div id="acc-add" class="kv"></div>
-              </div>
-            </details>
-          </div>
-        </div>
-
-        <div id="answerBlock" class="message" style="display:none;">
-          <div class="bubble answer" style="width:100%;">
-            <h3 style="margin:0 0 8px 0;">Değerlendirme Sonucu</h3>
-            <div id="evaluationText" style="white-space:pre-wrap;"></div>
-            <hr style="border-color: var(--border); margin:12px 0;" />
-            <div id="feedbackUI">
-              <p style="margin:0 0 6px 0; color: var(--muted);">Bu yanıt doğru mu?</p>
-              <div style="display:flex; gap:8px; margin-bottom:8px;">
-                <button class="pill-btn" id="fbCorrect">Evet, doğru</button>
-                <button class="pill-btn" id="fbIncorrect">Hayır, yanlış</button>
-              </div>
-              <div class="modal-backdrop" id="fbModal">
-                <div class="modal">
-                  <header>Yanıt neden yanlış?</header>
-                  <div>
-                    <div class="chips" id="fbChips"></div>
-                    <textarea id="fbComment" rows="4" placeholder="Kısa açıklama (isteğe bağlı)" style="width:100%; margin-top:10px;"></textarea>
-            </div>
-                  <footer>
-                    <button class="pill-btn" id="fbCancel">Vazgeç</button>
-                    <button class="pill-btn" id="fbSubmit">Gönder</button>
-                  </footer>
-                </div>
-              </div>
-              <span id="fbStatus" class="muted" style="display:none; color: var(--muted);"></span>
-              </div>
-            </div>
-          </div>
-        </div>
         </main>
       </div>
 
@@ -231,6 +175,7 @@
       const fbStatus = document.getElementById('fbStatus');
       const layout = document.getElementById('layout');
       const toggleMenuBtn = document.getElementById('toggleMenu');
+      const toggleMenuAlt = document.getElementById('toggleMenuAlt');
       const sectionHeads = document.querySelectorAll('.menu-section h4');
       const secReport = document.getElementById('sec-report');
       const secPatient = document.getElementById('sec-patient');
@@ -239,9 +184,9 @@
       const secMeds = document.getElementById('sec-meds');
       const secAdd = document.getElementById('sec-add');
 
-      toggleMenuBtn.addEventListener('click', () => {
-        layout.classList.toggle('sidebar-visible');
-      });
+      const toggleSidebar = () => layout.classList.toggle('sidebar-visible');
+      toggleMenuBtn.addEventListener('click', toggleSidebar);
+      if (toggleMenuAlt) toggleMenuAlt.addEventListener('click', toggleSidebar);
       sectionHeads.forEach(h => h.addEventListener('click', () => {
         const t = document.getElementById(h.dataset.target);
         t.style.display = t.style.display === 'block' ? 'none' : 'block';

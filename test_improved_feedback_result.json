@@ -1,0 +1,18 @@
+{
+  "timestamp": "2025-09-19T15:03:05.169585",
+  "analysis_summary": {
+    "total_feedback": 12,
+    "success_rate": 66.66666666666666,
+    "error_patterns": {
+      "Mevzuat dayanağı eksik": 2,
+      "İlaç-Endikasyon Uyumsuzluğu": 2,
+      "Tanı Kodu Hatası": 3,
+      "Dozaj/Şema Hatası": 1,
+      "Format Sorunları": 1,
+      "Genel Bilgi Eksikliği": 1
+    },
+    "specific_feedback_count": 4
+  },
+  "instructions_length": 2284,
+  "test_status": "success"
+}
