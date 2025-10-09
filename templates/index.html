@@ -11,6 +11,13 @@
     <link rel="stylesheet" href="{% static 'styles.css' %}" />
   </head>
   <body>
+    <div id="globalAlert" class="alert hidden" role="alert" aria-live="assertive">
+      <div class="title" id="alertTitle"></div>
+      <p class="msg" id="alertMsg"></p>
+    </div>
+    <div id="globalOverlay" class="overlay hidden" aria-hidden="true">
+      <div class="spinner" aria-label="Yükleniyor"></div>
+    </div>
     <header class="app-header">
       <div class="header-left">
         <button class="sidebar-toggle" id="toggleMenu" aria-label="Menüyü aç/kapat">☰</button>
@@ -158,6 +165,10 @@
       const input = document.getElementById('reportInput');
       const btn = document.getElementById('submitBtn');
       const loading = document.getElementById('loading');
+      const overlay = document.getElementById('globalOverlay');
+      const alertEl = document.getElementById('globalAlert');
+      const alertTitle = document.getElementById('alertTitle');
+      const alertMsg = document.getElementById('alertMsg');
       const resultBlock = document.getElementById('resultBlock');
       const accReport = document.getElementById('acc-report');
       const accPatient = document.getElementById('acc-patient');
@@ -202,18 +213,34 @@
         }
       });
 
+      const showOverlay = (show) => {
+        overlay.classList.toggle('hidden', !show);
+        overlay.setAttribute('aria-hidden', show ? 'false' : 'true');
+      };
+      const showAlert = (type, title, msg) => {
+        alertEl.classList.remove('hidden', 'success', 'error');
+        alertEl.classList.add(type);
+        alertTitle.textContent = title || '';
+        alertMsg.textContent = msg || '';
+        setTimeout(() => {
+          alertEl.classList.add('hidden');
+        }, 4000);
+      };
+
       form.addEventListener('submit', async (e) => {
         e.preventDefault();
         const text = (input.value || '').trim();
         if (!text) {
-          resultBlock.style.display = 'block';
+          resultBlock.classList.remove('hidden');
           evaluationText.textContent = 'Lütfen rapor metni girin.';
+          showAlert('error', 'Eksik bilgi', 'Devam etmek için rapor metni girin.');
           return;
         }
 
         btn.disabled = true;
-        loading.style.display = 'inline';
-        resultBlock.style.display = 'block';
+        loading.classList.remove('hidden');
+        resultBlock.classList.remove('hidden');
+        showOverlay(true);
         evaluationText.textContent = 'Değerlendiriliyor...';
         
 
@@ -225,6 +252,10 @@
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
             body
           });
+          if (!res.ok) {
+            const errTxt = await res.text().catch(()=> 'Sunucu hatası');
+            throw new Error(errTxt || `İstek başarısız: ${res.status}`);
+          }
           const data = await res.json();
           // Build sidebar sections & accordions
           const s = data.structured || {};
@@ -286,13 +317,16 @@
           meds.forEach((m,i) => {
             accMeds.insertAdjacentHTML('beforeend', `<div class=\"card\" style=\"margin-bottom:8px;\"><div class=\"kv\"><div class=\"k\">Kod</div><div class=\"v\">${m.code||''}</div><div class=\"k\">Ad</div><div class=\"v\">${m.name||''}</div><div class=\"k\">Form</div><div class=\"v\">${m.form||''}</div><div class=\"k\">Şema</div><div class=\"v\">${m.treatment_scheme||''}</div><div class=\"k\">Miktar</div><div class=\"v\">${m.quantity||''}</div></div></div>`);
           });
-          answerBlock.style.display = 'block';
+          answerBlock.classList.remove('hidden');
           if (data.assistant && data.assistant.status === 'success') {
             evaluationText.textContent = data.assistant.evaluation || 'Yanıt boş';
+            showAlert('success', 'Başarılı', 'Değerlendirme tamamlandı.');
           } else if (data.assistant && data.assistant.status === 'skipped') {
             evaluationText.textContent = 'API anahtarları ayarlı değil. Sadece parse sonucu gösteriliyor.';
+            showAlert('success', 'Bilgi', 'API anahtarı olmadığı için yalnızca parse sonucu gösterildi.');
           } else {
             evaluationText.textContent = (data.assistant && (data.assistant.message || data.assistant.error)) || 'Değerlendirme yapılamadı.';
+            showAlert('error', 'İşlem başarısız', 'Değerlendirme yapılamadı.');
           }
           // Enable feedback UI
           fbModal.style.display = 'none';
@@ -359,9 +393,11 @@
           }
         } catch (err) {
           evaluationText.textContent = 'İstek başarısız: ' + (err && err.message ? err.message : err);
+          showAlert('error', 'İstek hatası', (err && err.message) ? err.message : 'Bilinmeyen hata');
         } finally {
           btn.disabled = false;
-          loading.style.display = 'none';
+          loading.classList.add('hidden');
+          showOverlay(false);
       }
     });
   </script>
