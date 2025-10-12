@@ -78,3 +78,4 @@ generate_finetune_data.py
 secrets.txt
 api_keys.txt
 *.key
+handwrite/.venv/

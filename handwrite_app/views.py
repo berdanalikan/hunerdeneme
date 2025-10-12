@@ -20,6 +20,9 @@ try:
 except ImportError as e:
     print(f"Handwrite modules not available: {e}")
     OCR_AVAILABLE = False
+except Exception as e:
+    print(f"Handwrite modules failed to load: {e}")
+    OCR_AVAILABLE = False
 
 
 def index(request: HttpRequest):
