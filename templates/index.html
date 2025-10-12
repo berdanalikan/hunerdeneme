@@ -67,9 +67,16 @@
         </div>
       </aside>
       <main class="chat">
-      <div class="layout-two-cols">
-        <div class="col">
-          <div class="message scroll-panel">
+        <div class="quick-actions">
+          <p class="quick-question">Hangi analiz türünü kullanmak istiyorsunuz?</p>
+          <div class="button-group">
+            <a href="/handwrite/" class="quick-btn primary">✍️ El Yazısı Reçete Analizi</a>
+            <button class="quick-btn" onclick="document.getElementById('reportInput').focus()">📝 Metin Rapor Analizi</button>
+          </div>
+        </div>
+        <div class="layout-two-cols">
+          <div class="col">
+            <div class="message scroll-panel">
           <div class="bubble full">
             <form id="reportForm" action="/evaluate/" method="post" onsubmit="return false;">
               <label for="reportInput" class="sr-only">Rapor metni</label>
