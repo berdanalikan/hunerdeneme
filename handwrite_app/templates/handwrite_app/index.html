@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hüner AI | El Yazısı Reçete Analizi</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .nav-breadcrumb {
+            background: #f8f9fa;
+            padding: 15px 30px;
+            border-bottom: 1px solid #dee2e6;
+        }
+
+        .nav-breadcrumb a {
+            color: #4facfe;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .nav-breadcrumb a:hover {
+            text-decoration: underline;
+        }
+
+        .main-content {
+            padding: 40px;
+        }
+
+        .upload-section {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            border: 2px dashed #dee2e6;
+            transition: all 0.3s ease;
+        }
+
+        .upload-section:hover {
+            border-color: #4facfe;
+            background: #f0f8ff;
+        }
+
+        .upload-section.dragover {
+            border-color: #4facfe;
+            background: #e3f2fd;
+        }
+
+        .file-input-wrapper {
+            position: relative;
+            display: inline-block;
+            width: 100%;
+        }
+
+        .file-input {
+            position: absolute;
+            opacity: 0;
+            width: 100%;
+            height: 100%;
+            cursor: pointer;
+        }
+
+        .file-input-label {
+            display: block;
+            padding: 20px;
+            text-align: center;
+            background: white;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .file-input-label:hover {
+            background: #f0f8ff;
+            transform: translateY(-2px);
+        }
+
+        .question-section {
+            margin-bottom: 30px;
+        }
+
+        .question-section label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .question-input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #dee2e6;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .question-input:focus {
+            outline: none;
+            border-color: #4facfe;
+        }
+
+        .analyze-btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 30px;
+        }
+
+        .analyze-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(79, 172, 254, 0.3);
+        }
+
+        .analyze-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #4facfe;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .results {
+            display: none;
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 30px;
+            margin-top: 30px;
+        }
+
+        .result-section {
+            margin-bottom: 30px;
+        }
+
+        .result-section h3 {
+            color: #333;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #4facfe;
+        }
+
+        .result-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .result-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .result-card h4 {
+            color: #4facfe;
+            margin-bottom: 10px;
+        }
+
+        .medication-item {
+            background: #e3f2fd;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+
+        .error {
+            background: #ffebee;
+            color: #c62828;
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+
+        .success {
+            background: #e8f5e8;
+            color: #2e7d32;
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+
+        .preview-image {
+            max-width: 100%;
+            max-height: 300px;
+            border-radius: 10px;
+            margin-top: 15px;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: #4facfe;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>✍️ El Yazısı Reçete Analizi</h1>
+            <p>Reçete görsellerinizi yükleyin, AI ile analiz edin</p>
+        </div>
+
+        <div class="nav-breadcrumb">
+            <a href="/">← Ana Sayfaya Dön</a>
+        </div>
+
+        <div class="main-content">
+            <div class="upload-section" id="uploadSection">
+                <div class="file-input-wrapper">
+                    <input type="file" id="fileInput" class="file-input" accept="image/*">
+                    <label for="fileInput" class="file-input-label">
+                        <div style="font-size: 3rem; margin-bottom: 15px;">📁</div>
+                        <div style="font-size: 1.2rem; margin-bottom: 10px;">Reçete görselinizi seçin</div>
+                        <div style="color: #666;">JPG, PNG veya GIF formatında</div>
+                    </label>
+                </div>
+                <div id="imagePreview"></div>
+            </div>
+
+            <div class="question-section">
+                <label for="questionInput">Sorunuz (Opsiyonel):</label>
+                <input type="text" id="questionInput" class="question-input" 
+                       placeholder="Örn: Bu reçetedeki ilaçları listele, dozaj bilgilerini ver...">
+            </div>
+
+            <button id="analyzeBtn" class="analyze-btn">🔍 Reçeteyi Analiz Et</button>
+
+            <div id="loading" class="loading">
+                <div class="spinner"></div>
+                <p>Reçete analiz ediliyor, lütfen bekleyin...</p>
+            </div>
+
+            <div id="results" class="results">
+                <div class="result-section">
+                    <h3>📋 Analiz Sonuçları</h3>
+                    <div id="analysisResults"></div>
+                </div>
+
+                <div class="result-section">
+                    <h3>📝 OCR Metni</h3>
+                    <div id="ocrResults"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const fileInput = document.getElementById('fileInput');
+        const questionInput = document.getElementById('questionInput');
+        const analyzeBtn = document.getElementById('analyzeBtn');
+        const loading = document.getElementById('loading');
+        const results = document.getElementById('results');
+        const uploadSection = document.getElementById('uploadSection');
+        const imagePreview = document.getElementById('imagePreview');
+        const analysisResults = document.getElementById('analysisResults');
+        const ocrResults = document.getElementById('ocrResults');
+
+        let selectedFile = null;
+
+        // Drag and drop
+        uploadSection.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadSection.classList.add('dragover');
+        });
+
+        uploadSection.addEventListener('dragleave', () => {
+            uploadSection.classList.remove('dragover');
+        });
+
+        uploadSection.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadSection.classList.remove('dragover');
+            const files = e.dataTransfer.files;
+            if (files.length > 0) {
+                handleFileSelect(files[0]);
+            }
+        });
+
+        // File input
+        fileInput.addEventListener('change', (e) => {
+            if (e.target.files.length > 0) {
+                handleFileSelect(e.target.files[0]);
+            }
+        });
+
+        function handleFileSelect(file) {
+            selectedFile = file;
+            
+            // Preview
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                imagePreview.innerHTML = `
+                    <img src="${e.target.result}" alt="Preview" class="preview-image">
+                    <p style="margin-top: 10px; color: #666;">Seçilen dosya: ${file.name}</p>
+                `;
+            };
+            reader.readAsDataURL(file);
+        }
+
+        // Analyze button
+        analyzeBtn.addEventListener('click', async () => {
+            if (!selectedFile) {
+                alert('Lütfen bir reçete görseli seçin');
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append('file', selectedFile);
+            formData.append('user_question', questionInput.value || 'Bu reçeteyi analiz et');
+            formData.append('use_ocr_fallback', 'true');
+
+            // UI güncelle
+            analyzeBtn.disabled = true;
+            loading.style.display = 'block';
+            results.style.display = 'none';
+
+            try {
+                const response = await fetch('/handwrite/analyze/', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    displayResults(result);
+                } else {
+                    showError(result.error || 'Analiz başarısız');
+                }
+            } catch (error) {
+                showError('Bağlantı hatası: ' + error.message);
+            } finally {
+                analyzeBtn.disabled = false;
+                loading.style.display = 'none';
+            }
+        });
+
+        function displayResults(result) {
+            let analysisHtml = '';
+            let ocrHtml = '';
+
+            // Analysis results
+            if (result.analysis) {
+                const analysis = result.analysis;
+                analysisHtml = `
+                    <div class="result-grid">
+                        <div class="result-card">
+                            <h4>👤 Hasta Bilgileri</h4>
+                            <p><strong>Ad:</strong> ${analysis.patient_name || 'Belirtilmemiş'}</p>
+                            <p><strong>Kimlik:</strong> ${analysis.patient_id || 'Belirtilmemiş'}</p>
+                        </div>
+                        <div class="result-card">
+                            <h4>👨‍⚕️ Doktor Bilgileri</h4>
+                            <p><strong>Ad:</strong> ${analysis.doctor_name || 'Belirtilmemiş'}</p>
+                            <p><strong>Tarih:</strong> ${analysis.date || 'Belirtilmemiş'}</p>
+                        </div>
+                    </div>
+                `;
+
+                if (analysis.medications && analysis.medications.length > 0) {
+                    analysisHtml += `
+                        <div class="result-card" style="margin-top: 20px;">
+                            <h4>💊 İlaçlar</h4>
+                            ${analysis.medications.map(med => `
+                                <div class="medication-item">
+                                    <strong>${med.name || 'İlaç adı belirtilmemiş'}</strong><br>
+                                    Dozaj: ${med.dosage || 'Belirtilmemiş'}<br>
+                                    Kullanım: ${med.usage || 'Belirtilmemiş'}
+                                </div>
+                            `).join('')}
+                        </div>
+                    `;
+                }
+
+                if (analysis.dosage_instructions) {
+                    analysisHtml += `
+                        <div class="result-card" style="margin-top: 20px;">
+                            <h4>📋 Kullanım Talimatları</h4>
+                            <p>${analysis.dosage_instructions}</p>
+                        </div>
+                    `;
+                }
+
+                if (analysis.requested_info) {
+                    analysisHtml += `
+                        <div class="result-card" style="margin-top: 20px;">
+                            <h4>❓ Sorunuza Cevap</h4>
+                            <p>${analysis.requested_info}</p>
+                        </div>
+                    `;
+                }
+
+                analysisHtml += `
+                    <div class="result-card" style="margin-top: 20px;">
+                        <h4>📊 Analiz Bilgileri</h4>
+                        <p><strong>Güvenilirlik:</strong> ${(analysis.confidence_score * 100).toFixed(1)}%</p>
+                        <p><strong>İşlem Süresi:</strong> ${result.processing_time?.toFixed(2)}s</p>
+                    </div>
+                `;
+            }
+
+            // OCR results
+            if (result.ocr_text) {
+                ocrHtml = `
+                    <div class="result-card">
+                        <h4>📝 Çıkarılan Metin</h4>
+                        <p style="white-space: pre-wrap; background: #f5f5f5; padding: 15px; border-radius: 5px;">${result.ocr_text}</p>
+                    </div>
+                `;
+            }
+
+            analysisResults.innerHTML = analysisHtml;
+            ocrResults.innerHTML = ocrHtml;
+            results.style.display = 'block';
+        }
+
+        function showError(message) {
+            results.innerHTML = `
+                <div class="error">
+                    <h4>❌ Hata</h4>
+                    <p>${message}</p>
+                </div>
+            `;
+            results.style.display = 'block';
+        }
+    </script>
+</body>
+</html>

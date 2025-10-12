@@ -1,0 +1,100 @@
+{
+  "total": 200,
+  "train": {
+    "count": 140,
+    "first_token_top5": [
+      [
+        "bugun",
+        10
+      ],
+      [
+        "telefon",
+        10
+      ],
+      [
+        "optik",
+        10
+      ],
+      [
+        "tarih",
+        9
+      ],
+      [
+        "el",
+        8
+      ]
+    ],
+    "length_buckets": {
+      "11-20": 62,
+      "6-10": 42,
+      "0-5": 12,
+      ">20": 24
+    }
+  },
+  "val": {
+    "count": 30,
+    "first_token_top5": [
+      [
+        "bugun",
+        3
+      ],
+      [
+        "yapay",
+        3
+      ],
+      [
+        "hizli",
+        3
+      ],
+      [
+        "istanbul",
+        2
+      ],
+      [
+        "ev",
+        2
+      ]
+    ],
+    "length_buckets": {
+      "11-20": 12,
+      "6-10": 12,
+      ">20": 6
+    }
+  },
+  "test": {
+    "count": 30,
+    "first_token_top5": [
+      [
+        "turkce",
+        5
+      ],
+      [
+        "bugun",
+        3
+      ],
+      [
+        "el",
+        2
+      ],
+      [
+        "ev",
+        2
+      ],
+      [
+        "sifre",
+        2
+      ]
+    ],
+    "length_buckets": {
+      ">20": 7,
+      "11-20": 13,
+      "6-10": 7,
+      "0-5": 3
+    }
+  },
+  "leakage_check": {
+    "train_val_intersection": 0,
+    "train_test_intersection": 0,
+    "val_test_intersection": 0
+  }
+}
